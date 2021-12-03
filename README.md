@@ -9,12 +9,19 @@ spatial molecular profiling (SMP).
 
 ## Development
 
-The latest version of the package is under development at [GitHub][github-url].
-One may directly download it by
+The latest version of the package is under development at [GitHub][github-url],
+which can be installed from GitHub by:
 
 ```R
 devtools::install_github("estfernan/boost")
 library(boost)
+```
+
+`SPARK` is a dependency in this package and is necessary for using the 
+*SPARK* model. It can be installed from [GitHub][spark-url] by:
+
+```R
+devtools::install_github('xzhoulab/SPARK')
 ```
 
 ## References
@@ -32,4 +39,5 @@ library(boost)
 [GNU General Public License][gpl] (≥ 3)
 
 [github-url]: https://github.com/estfernan/boost
+[spark-url]: https://github.com/xzhoulab/SPARK
 [gpl]: https://www.gnu.org/licenses/
