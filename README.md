@@ -17,8 +17,8 @@ devtools::install_github("estfernan/boost")
 library(boost)
 ```
 
-`SPARK` is a dependency in this package and is necessary for using the 
-*SPARK* model. It can be installed from [GitHub][spark-url] by:
+`SPARK` is a dependency and is necessary for using the *SPARK* model. 
+It can be installed from [GitHub][spark-url] by:
 
 ```R
 devtools::install_github('xzhoulab/SPARK')
