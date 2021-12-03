@@ -1,0 +1,51 @@
+Package: boost
+Title: Bayesian Modeling of Spatial Transcriptomics Data
+Version: 0.1.0
+Authors@R: 
+    c(person(given   = "Esteban",
+             family  = "Fernández",
+             role    = c("aut", "cre"),
+             email   = "esteban_fernandez@brown.edu",
+             comment = c(ORCID = "0000-0002-7106-4509")),
+      person(given   = "Xi",
+             family  = "Jiang",
+             role    = "aut",
+             email   = "xij@mail.smu.edu"),
+      person(given   = "Suhana",
+             family  = "Bedi",
+             role    = "ctb",
+             email   = "suhana.bedi@utdallas.edu"),
+      person(given   = "Qiwei",
+             family  = "Li",
+             role    = "ctb",
+             email   = "qiwei.li@utdallas.edu"))
+Description: Detect spatially variable (SV) genes in spatial transcriptomics 
+  (ST) data using the models proposed in Jiang et al. (2021) <arXiv:2104.13957>
+  and Li et al. (2020) <arXiv:2012.03326>, as well as other standard procedures.
+  The package implements the BOOST-Ising and BOOST-GP models, other standard 
+  statistical techniques, data preprocessing techniques, and other 
+  miscellaneous diagnostic tools. Model parameters can be tuned automatically 
+  for the MCMC procedure. Methods like plot() and print() are available for 
+  convinience. This package utilizes the Armadillo C++ library for 
+  linear algebra & scientific computing <http://arma.sourceforge.net/>.
+LinkingTo: 
+    RcppArmadillo,
+    Rcpp,
+    RcppDist
+Imports: 
+    mclust,
+    dbscan,
+    Rcpp,
+    stats,
+    ggplot2,
+    SPARK,
+    utils
+Depends:
+  R (>= 3.5.0)
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/estfernan/boost
+BugReports: https://github.com/estfernan/boost/issues
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
