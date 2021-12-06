@@ -38,6 +38,7 @@ Imports:
     Rcpp,
     stats,
     ggplot2,
+    SPARK,
     utils
 Remotes: 
   github::xzhoulab/SPARK
