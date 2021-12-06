@@ -1,6 +1,8 @@
 boost
 =====
 
+[![Build Status][gha-icon]][gha-url]
+
 The R package **boost** (Bayesian Modeling of Spatial Transcriptomics Data)
 provides functions to detect spatially variable (SV) genes in 
 spatial transcriptomics (ST) data. This package provides two novel Bayesian 
@@ -38,6 +40,8 @@ devtools::install_github('xzhoulab/SPARK')
 
 [GNU General Public License][gpl] (≥ 3)
 
+[gha-icon]: https://github.com/estfernan/boost/workflows/R-CMD-check/badge.svg
+[gha-url]: https://github.com/estfernan/boost/actions
 [github-url]: https://github.com/estfernan/boost
 [spark-url]: https://github.com/xzhoulab/SPARK
 [gpl]: https://www.gnu.org/licenses/
