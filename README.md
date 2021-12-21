@@ -26,7 +26,7 @@ It can be installed from [GitHub][spark-url] by:
 devtools::install_github('xzhoulab/SPARK')
 ```
 
-`SpatialDE` is a dependency and is necessary for using the *SpatialDE* model. 
+`SpatialDE` is also necessary for using the *SpatialDE* model. 
 It can be installed from [Bioconductor][spatialde-url] by:
 
 ```R
