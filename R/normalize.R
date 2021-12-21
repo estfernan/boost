@@ -67,9 +67,9 @@ normalize.st <- function(
   ##         a better understanding
   ##
 
-  if (length(estimation.method) > 1)
+  if (length(scaling.method) > 1)
   {
-    estimation.method <- estimation.method[1]
+    scaling.method <- scaling.method[1]
   }
 
   gene_num   <- ncol(count)
@@ -188,7 +188,7 @@ normalize.st <- function(
     phi = coef(nls(varx ~ meanx + phi * meanx^2, start = list(phi = 1)))
 
     ### Took the absolute value of counts as negative under the square root not on Real subspace
-    y <- sqrt( abs( (count + (3/8))/((1/phi)-(3/4)) ) )
+    y <- sqrt( abs( (count + (3/8))/((1 / phi)-(3/4)) ) )
     anscombe_norm <- log(y + sqrt(1 + y^2))
     total_a_counts <- apply(count, 1, sum)
     log_total_a_counts <- log(total_a_counts)
@@ -197,7 +197,7 @@ normalize.st <- function(
     ## All the above normalized counts were negative so reversed their signs
     count_nor <- db.norm
   }
-  else if(scaling.method == "log-VST")
+  else if (scaling.method == "log-VST")
   {
     ##
     ## Log Transformation
@@ -216,7 +216,7 @@ normalize.st <- function(
   else
   {
     warning(
-      paste0("value passed to 'estimation.method' is not a valid ",
+      paste0("value passed to 'scaling.method' is not a valid ",
              "normalization technique,", "\n  ",
              "the relative gene expression levels will be returned")
     )
