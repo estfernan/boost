@@ -31,6 +31,11 @@
             "  #> install.packages('devtools')\n",
             "  #> devtools::install_github('xzhoulab/SPARK')\n",
             "\n",
+            "To use the SpatialDE model, please install the source package by:\n",
+            "\n",
+            "  #> install.packages('BiocManager')\n",
+            "  #> BiocManager::install('spatialDE')\n",
+            "\n",
             "More information about the package can be found in <https://github.com/estfernan/boost>.")
   )
 }
