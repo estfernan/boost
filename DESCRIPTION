@@ -32,6 +32,7 @@ LinkingTo:
     RcppArmadillo,
     Rcpp,
     RcppDist
+biocViews:
 Imports: 
     mclust,
     dbscan,
@@ -39,8 +40,10 @@ Imports:
     stats,
     ggplot2,
     SPARK,
+    spatialDE,
     utils
 Remotes: 
+  bioc::release/spatialDE,
   github::xzhoulab/SPARK
 Depends:
   R (>= 3.5.0)
