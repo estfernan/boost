@@ -140,9 +140,7 @@ SPARK <- function(abs.expr, spots, size.factor, gene.name = NULL)
       model     = "SPARK",
       gene.name = gene.name,
       summary   = re,
-      measures  = c(
-        adjusted.pval = adjusted.pval, combined.pval = combined.pval
-      ),
+      measures  = c(p.value = combined.pval),
       time      = run_time
     ),
     class = "SPARK"
@@ -158,5 +156,5 @@ SPARK <- function(abs.expr, spots, size.factor, gene.name = NULL)
 ##'
 print.SPARK <- function(x, ...)
 {
-  print("this function has not been implemented yet")
+  print.default(x)
 }

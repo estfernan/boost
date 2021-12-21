@@ -176,5 +176,5 @@ binSpect <- function(bin.expr, neighbor.info, do.fisher.test = FALSE, gene.name 
 ##'
 print.binSpect <- function(x, ...)
 {
-  print("this function has not been implemented yet")
+  print.default(x)
 }
