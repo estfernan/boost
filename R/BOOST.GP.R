@@ -26,9 +26,9 @@
 ##' selection indicator. See Li et al. (2020) for more information on the
 ##' model fitting and posterior inference procedures.
 ##'
-##' @param expr A numeric vector \eqn{y} of length \eqn{n} that denotes the
-##'   gene expression levels. Each entry is an integer that denotes the gene
-##'   count at spot \eqn{i}.
+##' @param abs.expr A numeric vector \eqn{p} of length \eqn{n} that denotes the
+##'   absolute gene expression levels. Each entry is an integer that denotes
+##'   the gene count at spot \eqn{i}.
 ##' @param spots An \eqn{n}-by-\eqn{2} numeric matrix \eqn{T} to represent the
 ##'   geospatial profile, where each row indicates the spot location in
 ##'   the grid.
@@ -88,7 +88,7 @@
 ##' @importFrom stats pchisq
 ##'
 BOOST.GP <- function(
-  expr, spots,
+  abs.expr, spots,
   size.factor = NULL,
   gene.name = NULL,
   n.iter = 1e4, burn.prop = 0.50,
@@ -102,7 +102,7 @@ BOOST.GP <- function(
   ##         better understanding
   ##
 
-  invalid.obj     <- !is.vector(expr)
+  invalid.obj     <- !is.vector(abs.expr)
   absolute.levels <- is.null(size.factor)
   default.b.sigma <- is.null(init.b.sigma)
 
@@ -111,7 +111,7 @@ BOOST.GP <- function(
     stop("value passed to 'count' is not a vector for the expression levels")
   }
 
-  n <- length(expr)
+  n <- length(abs.expr)
 
   if (absolute.levels)
   {
@@ -120,12 +120,12 @@ BOOST.GP <- function(
 
   if (default.b.sigma)
   {
-    log.expr     <- log(expr)[expr > 0]
+    log.expr     <- log(abs.expr)[abs.expr > 0]
     init.b.sigma <- var(log.expr) * 2
     init.b.sigma <- round(init.b.sigma, 3)
   }
 
-  Y    <- matrix(expr, ncol = 1)
+  Y    <- matrix(abs.expr, ncol = 1)
   D    <- dist.GP(spots, 2)  # distance and neighbor matrix
   burn <- ceiling(n.iter * burn.prop)
 
@@ -181,14 +181,14 @@ BOOST.GP <- function(
 
   ## add option to output this to an RData file
   # list(
-  #   expr.levels   = expr,
+  #   expr.levels   = abs.expr,
   #   spots         = spots,
   #   distance.info = D$dist,
   #   neighbor.info = D$nei,
   #   size.factor   = size.factor,
   #   SSVS          = list(b.sigma.init = init.b.sigma, h.init = init.h),
   #   control       = list(n.iter = n.iter, burn.prop = burn.prop, burn = burn, update.prop = update.prop, verbose = verbose),
-  #   nSpots        = length(expr),
+  #   nSpots        = n,
   #   spots.loc     = apply(spots, 1, paste, collapse = " x "),
   #   estimate      = list(phi  = MCMC$phi_s[, 1], gamma = MCMC$gamma_s[, 1], lambda = exp(log.lambda), l = MCMC$l_s[, 1]),
   #   PPI           = list(H = MCMC$H_ppi[, 1], gamma = MCMC$gamma_ppi),
