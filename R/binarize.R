@@ -33,7 +33,7 @@
 ##' a quantile-based approach which simply applies a cutoff at the specified
 ##' percentage, (2) Gaussian mixture clustering (GMC), which is a model-based approach
 ##' that fits a two-component Gaussian mixture model (GMM) with unequal
-##' variances, and (3) k-means (KNN), a distance-based approach which is implicitly
+##' variances, and (3) k-means (k-means), a distance-based approach which is implicitly
 ##' based on the pairwise distances of the expression levels.
 ##'
 ##' See Jiang et al. (2021) for more information on the filtering steps and
@@ -72,7 +72,7 @@
 ##'
 binarize.st <- function(
   count, gene.name,
-  cluster.method = c("rank", "GMC", "KNN"),
+  cluster.method = c("rank", "GMC", "k-means"),
   percentage.rank = 0.30
 )
 {
@@ -164,7 +164,7 @@ binarize.st <- function(
       }
     }
   }
-  else if (cluster.method == "KNN")
+  else if (cluster.method == "k-means")
   {
     count_binary <- matrix(0, nrow = sample_num, ncol = gene_num)
 
