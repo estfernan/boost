@@ -126,7 +126,7 @@ BOOST.GP <- function(
   }
 
   Y    <- matrix(abs.expr, ncol = 1)
-  D    <- dist.GP(spots, 2)  # distance and neighbor matrix
+  D    <- dist.GP(spots, 2)
   burn <- ceiling(n.iter * burn.prop)
 
   MCMC <- .BOOST_GP_MCMC_cpp(
