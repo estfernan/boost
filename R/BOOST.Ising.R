@@ -30,9 +30,6 @@
 ##' @param bin.expr A numeric vector \eqn{p} of length \eqn{n} that denotes the
 ##'   dichotomised gene expression levels. Each entry is one if the gene is
 ##'   highly expressed at spot \eqn{i} and zero otherwise.
-##' @param spots An \eqn{n}-by-\eqn{2} numeric matrix \eqn{T} to represent the
-##'   geospatial profile, where each row indicates the spot location in
-##'   the grid.
 ##' @param neighbor.info An \eqn{n}-by-\eqn{K} numeric matrix \eqn{A} that
 ##'   denotes the long format of the adjacency matrix. Each entry denotes the
 ##'   neighbor for spot \eqn{i}.
@@ -90,7 +87,7 @@
 ##' @importFrom stats rnorm
 ##'
 BOOST.Ising <- function(
-  bin.expr, spots, neighbor.info,
+  bin.expr, neighbor.info,
   gene.name = NULL,
   mean.omega0 = 1, sigma.omega0 = 2.5,
   mean.theta = 0, sigma.theta = 1,
@@ -165,14 +162,12 @@ BOOST.Ising <- function(
   ## add option to output this to an RData file
   # list(
   #   expr.levels   = bin.expr,
-  #   spots         = spots,
   #   neighbor.info = neighbor.info,
   #   base.prior    = list(mean = mean.omega0, sd = sigma.omega0),
   #   coef.prior    = list(mean = mean.theta,  sd = sigma.theta),
   #   DMH           = list(M = M, tau = tau, omega0.init = omega0.init, theta.init = theta.init),
   #   control       = list(n.iter = n.iter, burn.prop = burn.prop, burn = burn, verbose = verbose),
   #   nSpots        = length(bin.expr),
-  #   spots.loc     = apply(spots, 1, paste, collapse = " x "),
   #   estimate      = list(omega0 = MCMC$omega0_s, theta  = MCMC$theta_s),
   #   accept        = MCMC$accept
   # )
