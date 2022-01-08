@@ -6,7 +6,6 @@
 \usage{
 BOOST.Ising(
   bin.expr,
-  spots,
   neighbor.info,
   gene.name = NULL,
   mean.omega0 = 1,
@@ -22,10 +21,6 @@ BOOST.Ising(
 \item{bin.expr}{A numeric vector \eqn{p} of length \eqn{n} that denotes the
 dichotomised gene expression levels. Each entry is one if the gene is
 highly expressed at spot \eqn{i} and zero otherwise.}
-
-\item{spots}{An \eqn{n}-by-\eqn{2} numeric matrix \eqn{T} to represent the
-geospatial profile, where each row indicates the spot location in
-the grid.}
 
 \item{neighbor.info}{An \eqn{n}-by-\eqn{K} numeric matrix \eqn{A} that
 denotes the long format of the adjacency matrix. Each entry denotes the

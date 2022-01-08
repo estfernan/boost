@@ -5,7 +5,7 @@
 \title{Fit BOOST-GP Model for Gene Expression Levels}
 \usage{
 BOOST.GP(
-  expr,
+  abs.expr,
   spots,
   size.factor = NULL,
   gene.name = NULL,
@@ -18,9 +18,9 @@ BOOST.GP(
 )
 }
 \arguments{
-\item{expr}{A numeric vector \eqn{y} of length \eqn{n} that denotes the
-gene expression levels. Each entry is an integer that denotes the gene
-count at spot \eqn{i}.}
+\item{abs.expr}{A numeric vector \eqn{p} of length \eqn{n} that denotes the
+absolute gene expression levels. Each entry is an integer that denotes
+the gene count at spot \eqn{i}.}
 
 \item{spots}{An \eqn{n}-by-\eqn{2} numeric matrix \eqn{T} to represent the
 geospatial profile, where each row indicates the spot location in
