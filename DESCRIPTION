@@ -32,18 +32,13 @@ LinkingTo:
     RcppArmadillo,
     Rcpp,
     RcppDist
-biocViews:
 Imports: 
     mclust,
     dbscan,
     Rcpp,
     stats,
     ggplot2,
-    SPARK,
-    spatialDE,
     utils
-Remotes: 
-  github::xzhoulab/SPARK
 Depends:
   R (>= 3.5.0)
 License: GPL (>= 3)
