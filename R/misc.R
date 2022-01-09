@@ -41,6 +41,83 @@ vectorized_pdist <- function(A,B)
 }
 
 # //////////////////////////////////////////////////////////////////////////////
+# Graphics functions ----
+# //////////////////////////////////////////////////////////////////////////////
+
+##' Density Plot for MCMC Samples
+##'
+##' @noRd
+##' @keywords internal plot
+##'
+##' @importFrom ggplot2 ggplot aes geom_histogram geom_density geom_vline labs
+##'   coord_fixed theme_light theme element_blank element_rect element_text
+##' @importFrom rlang .data
+##' @importFrom stats quantile
+##'
+density.plot <- function(s, ind = NULL, title = "", subtitle = "")
+{
+  thin <- !is.null(ind)
+
+  if (thin)
+  {
+    s <- s[ind]
+  }
+
+  ggplot(mapping = aes(x = s)) +
+    geom_histogram(
+      mapping = aes(y = .data$..density..),
+      bins = 30,
+      color = "#000000", fill = "#E69F00"
+    ) +
+    geom_density() +
+    geom_vline(xintercept = mean(s), color = "#D55E00", linetype = 2) +
+    geom_vline(xintercept = quantile(s, 0.025), color = "#D55E00") +
+    geom_vline(xintercept = quantile(s, 0.975), color = "#D55E00") +
+    labs(
+      title    = title,
+      subtitle = subtitle
+    ) +
+    coord_fixed() +
+    theme_light() +
+    theme(
+      aspect.ratio = 1,
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      legend.title = element_blank(),
+      panel.border = element_rect(colour = "black", fill = NA, size = 0.5),
+      plot.title   = element_text(face = 2)
+    )
+}
+
+##' Trace Plot for MCMC Samples
+##'
+##' @noRd
+##' @keywords internal plot
+##'
+##' @importFrom ggplot2 ggplot aes geom_line geom_hline labs scale_x_continuous
+##'   coord_fixed theme_light theme element_blank element_rect element_text
+##' @importFrom scales comma
+##'
+trace.plot <- function(s, iter, title = "", subtitle = "")
+{
+  ggplot(mapping = aes(x = iter, y = s)) +
+    geom_line() +
+    geom_hline(yintercept = mean(s), color = "#D55E00", linetype = 2) +
+    labs(title = title, subtitle = subtitle) +
+    scale_x_continuous(labels = comma) +
+    coord_fixed() +
+    theme_light() +
+    theme(
+      aspect.ratio = 1,
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      legend.title = element_blank(),
+      panel.border = element_rect(colour = "black", fill = NA, size = 0.5),
+      plot.title   = element_text(face = 2)
+    )
+}
+
+# //////////////////////////////////////////////////////////////////////////////
 # Helper functions ----
 # //////////////////////////////////////////////////////////////////////////////
 
