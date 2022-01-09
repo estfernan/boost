@@ -43,7 +43,6 @@ Imports:
     spatialDE,
     utils
 Remotes: 
-  bioc::release/spatialDE,
   github::xzhoulab/SPARK
 Depends:
   R (>= 3.5.0)
