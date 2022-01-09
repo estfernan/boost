@@ -42,7 +42,7 @@
 ##'   to keep the gene expression levels unnamed.
 ##'
 ##' @return `SPARK` returns an object of class "`SPARK`".
-##'   The function [base::print()] i.e., [print.SPARK()], can be used to
+##'   The function [base::print()] i.e., [print.SPARK()] can be used to
 ##'   print a summary of the results.
 ##'
 ##' An object of class "`SPARK`" is a list containing the following components:
@@ -50,7 +50,7 @@
 ##'   \item{model}{the name of statistical model or technique.}
 ##'   \item{gene.name}{the name of gene evaluated.}
 ##'   \item{summary}{a summary table that contains the p-values for the different tests.}
-##'   \item{measures}{the adjusted and combined \eqn{p}-values.}
+##'   \item{measures}{the combined \eqn{p}-value.}
 ##'   \item{time}{the execution time of the function.}
 ##'
 ##' @references Sun, S., Zhu, J. & Zhou, X. Statistical analysis of
@@ -58,11 +58,11 @@
 ##' *Nat Methods* **17**, 193–200 (2020).
 ##' <https://doi.org/10.1038/s41592-019-0701-7>.
 ##'
-##' @examples
-##' ## Need to implement this example.
+##' @example inst/examples/ex_SPARK.R
 ##'
 ##' @seealso
-##' [get.size.factor()] for obtaining the size factors.
+##' [get.size.factor()] for obtaining the size factors;
+##' [print.SPARK()] for printing a summary of results to console.
 ##'
 ##' @export
 ##' @keywords method
@@ -133,6 +133,7 @@ SPARK <- function(abs.expr, spots, size.factor, gene.name = NULL)
   names(combined.pval) <- NULL
 
   re[c("adjusted_pvalue", "combined_pvalue")] <- NULL
+  rownames(re) <- ""
 
   structure(
     list(
@@ -156,5 +157,23 @@ SPARK <- function(abs.expr, spots, size.factor, gene.name = NULL)
 ##'
 print.SPARK <- function(x, ...)
 {
-  print.default(x)
+  with(
+    x,
+    {
+      cat("\nCall:\n")
+      dput(call)
+
+      cat("\nModel:", model, "\n")
+
+      cat("\nSummary:\n")
+
+      print(summary, digits = 2, ...)
+
+      cat("\np-value in favor of a spatially-variable pattern: ")
+      cat(pval.format(measures$p.value), "\n")
+    }
+  )
+
+  cat("\n")
+  invisible(x)
 }

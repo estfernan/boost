@@ -68,8 +68,7 @@
 ##' doi: [10.1038/nmeth.4636](https://doi.org/10.1038/nmeth.4636),
 ##' <https://www.nature.com/articles/nmeth.4636>.
 ##'
-##' @examples
-##' ## Need to implement this example.
+##' @example inst/examples/ex_SpatialDE.R
 ##'
 ##' @seealso
 ##' [normalize.st()] for normalizing the expression levels;
@@ -100,13 +99,15 @@ SpatialDE <- function(norm.expr, spots, gene.name = NULL)
 
   res <- spatialDE::run(x, spots, verbose = FALSE)
 
+  rownames(res) <- ""
+
   structure(
     list(
       call      = match.call(),
       model     = "SpatialDE",
       gene.name = gene.name,
       summary   = res[c("g", "n", "FSV", "l", "BIC")],
-      measures  = c(p.value = res$pval),
+      measures  = list(p.value = res$pval),
       time      = res$time
     ),
     class = "SpatialDE"
@@ -122,5 +123,23 @@ SpatialDE <- function(norm.expr, spots, gene.name = NULL)
 ##'
 print.SpatialDE <- function(x, ...)
 {
-  print.default(x)
+  with(
+    x,
+    {
+      cat("\nCall:\n")
+      dput(call)
+
+      cat("\nModel:", model, "\n")
+
+      cat("\nSummary:\n")
+
+      print(summary, digits = 2, ...)
+
+      cat("\np-value in favor of a spatially-variable pattern: ")
+      cat(pval.format(measures$p.value), "\n")
+    }
+  )
+
+  cat("\n")
+  invisible(x)
 }

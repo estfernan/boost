@@ -66,8 +66,7 @@
 ##' *Genome Biol* **22**, 78 (2021).
 ##' <https://doi.org/10.1186/s13059-021-02286-2>
 ##'
-##' @examples
-##' ## Need to implement this example.
+##' @example inst/examples/ex_BinSpect.R
 ##'
 ##' @seealso
 ##' [binarize.st()] for dichotomising the expression levels;
@@ -160,7 +159,7 @@ binSpect <- function(bin.expr, neighbor.info, do.fisher.test = FALSE, gene.name 
       model     = "BinSpect",
       gene.name = gene.name,
       summary   = as.data.frame(contingency_table),
-      measures  = c(OR = estimate, p.val = p_value),
+      measures  = list(OR = estimate, p.val = p_value),
       time      = run_time
     ),
     class = "binSpect"
@@ -176,5 +175,26 @@ binSpect <- function(bin.expr, neighbor.info, do.fisher.test = FALSE, gene.name 
 ##'
 print.binSpect <- function(x, ...)
 {
-  print.default(x)
+  with(
+    x,
+    {
+      cat("\nCall:\n")
+      dput(call)
+
+      cat("\nModel:", model, "\n")
+
+      cat("\nContingency Table for Classified Edges:\n")
+
+      print(summary, digits = 2, ...)
+
+      cat("\nOdds ratio in favor of a spatially-variable pattern: ")
+      dput(round(measures$OR, 2))
+
+      cat("p-value in favor of a spatially-variable pattern: ")
+      cat(pval.format(measures$p.val), "\n")
+    }
+  )
+
+  cat("\n")
+  invisible(x)
 }

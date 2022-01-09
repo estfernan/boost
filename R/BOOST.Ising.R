@@ -52,9 +52,6 @@
 ##' @param burn.prop A numeric value to specify the proportion of iterations to
 ##'   use as warm-up. The default is 0.50 to use half of the iterations
 ##'   for warm-up.
-##' @param verbose A logical value that specifies if the function should
-##'   monitor the algorithm's convergence. The default is `TRUE` to display the
-##'   progress of the algorithm.
 ##'
 ##' @return `BOOST.Ising` returns an object of class "`BOOST.Ising`".
 ##'   The function [base::print()] i.e., [print.BOOST.Ising()], can be used to
@@ -73,8 +70,7 @@
 ##' Spatial Transcriptomics Data via a Modified Ising Model.
 ##' *arXiv preprint arXiv:2104.13957*.
 ##'
-##' @examples
-##' ## Need to implement the example for the procedure.
+##' @example inst/examples/ex_Ising.R
 ##'
 ##' @seealso
 ##' [normalize.st()] for normalizing sequence count data;
@@ -91,8 +87,7 @@ BOOST.Ising <- function(
   gene.name = NULL,
   mean.omega0 = 1, sigma.omega0 = 2.5,
   mean.theta = 0, sigma.theta = 1,
-  n.iter = 1e4, burn.prop = 0.50,
-  verbose = TRUE
+  n.iter = 1e4, burn.prop = 0.50
 )
 {
   invalid.obj  <- !is.vector(bin.expr)
@@ -154,7 +149,8 @@ BOOST.Ising <- function(
         "Upper 95% CI" = c(
           quantile(omega0, 0.975), quantile(theta, 0.975)
         ),
-        row.names = c("First-Order Intensity", "Interaction"), check.names = FALSE
+        row.names = c("First-Order Intensity", "Interaction"),
+        check.names = FALSE
       )
     }
   )
@@ -178,7 +174,7 @@ BOOST.Ising <- function(
       model         = "BOOST-Ising",
       gene.name     = gene.name,
       summary       = est,
-      measure       = list(
+      measures      = list(
         BF.neg   = (1 - pval.neg) / (pval.neg + 1e-10),  # repulsion
         BF.pos   = (1 - pval.pos) / (pval.pos + 1e-10),  # attractions
         pval.neg = pval.neg, pval.pos = pval.pos
@@ -224,10 +220,10 @@ print.BOOST.Ising <- function(x, ...)
       print(summary, digits = 2, ...)
 
       cat("\nBayes Factor in favor of an attraction pattern: ")
-      dput(measure$BF.neg)
+      dput(measures$BF.neg)
 
       cat("p-value: ")
-      dput(measure$pval.neg)
+      cat(pval.format(measures$pval.neg))
     }
   )
 

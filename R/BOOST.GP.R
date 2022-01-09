@@ -201,7 +201,7 @@ BOOST.GP <- function(
       model         = "BOOST-GP",
       gene.name     = gene.name,
       summary       = est,
-      measure       = list(
+      measures      = list(
         BF    = BF,
         p.val = p.val
       ),
@@ -247,10 +247,10 @@ print.BOOST.GP <- function(x, ...)
       print(summary, digits = 2, ...)
 
       cat("\nBayes Factor in favor of a spatially variable gene: ")
-      dput(measure$BF)
+      dput(measures$BF)
 
       cat("p-value: ")
-      dput(measure$p.val)
+      dput(measures$p.val)
     }
   )
 
