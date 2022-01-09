@@ -39,10 +39,6 @@ normal distribution.
 
 See Jiang et al. (2021) for more information on the normalization methods.
 }
-\examples{
-## Need to implement the example.
-
-}
 \references{
 Jiang, X., Li, Q., & Xiao, G. (2021). Bayesian Modeling of
 Spatial Transcriptomics Data via a Modified Ising Model.

@@ -4,14 +4,14 @@
 \alias{get.neighbors}
 \title{Get Neighborhood Information}
 \usage{
-get.neighbors(spots, n.neighbor, method = c("distance", "KNN"))
+get.neighbors(spots, n.neighbors, method = c("distance", "KNN"))
 }
 \arguments{
 \item{spots}{An \eqn{n}-by-\eqn{2} numeric matrix \eqn{T} to represent the
 geospatial profile, where each row indicates the spot location in
 the grid.}
 
-\item{n.neighbor}{An integer value that denotes the number of neighbors or
+\item{n.neighbors}{An integer value that denotes the number of neighbors or
 connectivity. See "Details" for more information.}
 
 \item{method}{An optional character string that specifies the method to
@@ -41,10 +41,6 @@ neighbors in distance. Additionally, for method (1), a spot might not have
 a full connectivity.
 
 See Jiang et al. (2021) for an introduction to the lattice grid system.
-}
-\examples{
-## Need to implement the example.
-
 }
 \references{
 Jiang, X., Li, Q., & Xiao, G. (2021). Bayesian Modeling of
