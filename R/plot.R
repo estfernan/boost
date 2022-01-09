@@ -40,9 +40,6 @@
 ##'
 ##' @return A `ggplot` object.
 ##'
-##' @examples
-##' ## Need to implement this example.
-##'
 ##' @export
 ##' @keywords plot
 ##'
@@ -52,6 +49,11 @@ st.plot <- function(
   log.expr = TRUE
 )
 {
+  if (!is.vector(expr))
+  {
+    stop("value passed to 'expr' must be a vector")
+  }
+
   if (log.expr & !binary)
   {
     expr <- log(expr + 1)
