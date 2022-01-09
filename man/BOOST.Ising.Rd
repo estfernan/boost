@@ -13,8 +13,7 @@ BOOST.Ising(
   mean.theta = 0,
   sigma.theta = 1,
   n.iter = 10000,
-  burn.prop = 0.5,
-  verbose = TRUE
+  burn.prop = 0.5
 )
 }
 \arguments{
@@ -51,10 +50,6 @@ DMH algorithm. The default is 10,000 iterations.}
 \item{burn.prop}{A numeric value to specify the proportion of iterations to
 use as warm-up. The default is 0.50 to use half of the iterations
 for warm-up.}
-
-\item{verbose}{A logical value that specifies if the function should
-monitor the algorithm's convergence. The default is \code{TRUE} to display the
-progress of the algorithm.}
 }
 \value{
 \code{BOOST.Ising} returns an object of class "\code{BOOST.Ising}".
@@ -83,8 +78,18 @@ high-expression states. See Jiang et al. (2021) for more information on
 the model fitting and posterior inference procedures.
 }
 \examples{
-## Need to implement the example for the procedure.
+library(boost)
 
+## load sample dataset
+data(mob)
+
+## extract a sample gene, dichotomise expression levels, and get spatial network
+g <- binarize.st(mob, "Apoe", cluster.method = "GMC")
+A <- get.neighbors(mob.spots, 4, method = "distance")
+
+## fit the model
+res <- BOOST.Ising(g, A, gene.name = "Apoe", n.iter = 500)
+print(res)
 }
 \references{
 Jiang, X., Li, Q., & Xiao, G. (2021). Bayesian Modeling of

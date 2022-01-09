@@ -25,7 +25,7 @@ to keep the gene expression levels unnamed.}
 }
 \value{
 \code{SPARK} returns an object of class "\code{SPARK}".
-The function \code{\link[base:print]{base::print()}} i.e., \code{\link[=print.SPARK]{print.SPARK()}}, can be used to
+The function \code{\link[base:print]{base::print()}} i.e., \code{\link[=print.SPARK]{print.SPARK()}} can be used to
 print a summary of the results.
 
 An object of class "\code{SPARK}" is a list containing the following components:
@@ -33,7 +33,7 @@ An object of class "\code{SPARK}" is a list containing the following components:
 \item{model}{the name of statistical model or technique.}
 \item{gene.name}{the name of gene evaluated.}
 \item{summary}{a summary table that contains the p-values for the different tests.}
-\item{measures}{the adjusted and combined \eqn{p}-values.}
+\item{measures}{the combined \eqn{p}-value.}
 \item{time}{the execution time of the function.}
 }
 \description{
@@ -50,8 +50,18 @@ yielding high statistical power.
 See \url{https://xzhoulab.github.io/SPARK/} for more information.
 }
 \examples{
-## Need to implement this example.
+library(boost)
 
+## load sample dataset
+data(mob)
+
+## estimate the size factor and extract one sample gene
+s <- get.size.factor(mob, estimation.method = "TSS")
+g <- mob[, "Apoe"]
+
+## run the statistical test
+res <- SPARK(g, mob.spots, s, gene.name = "Apoe")
+print(res)
 }
 \references{
 Sun, S., Zhu, J. & Zhou, X. Statistical analysis of
@@ -60,6 +70,7 @@ spatial expression patterns for spatially resolved transcriptomic studies.
 \url{https://doi.org/10.1038/s41592-019-0701-7}.
 }
 \seealso{
-\code{\link[=get.size.factor]{get.size.factor()}} for obtaining the size factors.
+\code{\link[=get.size.factor]{get.size.factor()}} for obtaining the size factors;
+\code{\link[=print.SPARK]{print.SPARK()}} for printing a summary of results to console.
 }
 \keyword{method}

@@ -52,8 +52,18 @@ See \url{https://bioconductor.org/packages/release/bioc/html/spatialDE.html}
 for more information.
 }
 \examples{
-## Need to implement this example.
+library(boost)
 
+## load sample dataset
+data(mob)
+
+## scale gene expression levels and extract one gene
+mob.t <- normalize.st(mob, scaling.method = "TSS")
+g     <- mob.t[, "Apoe"]
+
+## run the statistical test
+res <- SpatialDE(g, mob.spots, gene.name = "Apoe")
+print(res)
 }
 \references{
 Corso D, Malfait M, Moses L (2021). \emph{spatialDE: R wrapper for SpatialDE}.
