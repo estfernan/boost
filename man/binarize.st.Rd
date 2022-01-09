@@ -55,10 +55,6 @@ based on the pairwise distances of the expression levels.
 See Jiang et al. (2021) for more information on the filtering steps and
 last two clustering methods.
 }
-\examples{
-## Need to implement the example.
-
-}
 \references{
 Jiang, X., Li, Q., & Xiao, G. (2021). Bayesian Modeling of
 Spatial Transcriptomics Data via a Modified Ising Model.

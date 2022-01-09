@@ -39,10 +39,6 @@ expression (RLE), and weighted trimmed mean by M-values (TMM).
 See Jiang et al. (2021) for more information and references on
 these options.
 }
-\examples{
-## Need to implement the example.
-
-}
 \references{
 Jiang, X., Li, Q., & Xiao, G. (2021). Bayesian Modeling of
 Spatial Transcriptomics Data via a Modified Ising Model.

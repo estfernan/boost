@@ -49,9 +49,6 @@
 ##'   Spatial Transcriptomics Data via a Modified Ising Model.
 ##'   *arXiv preprint arXiv:2104.13957*.
 ##'
-##' @examples
-##' ## Need to implement the example.
-##'
 ##' @export
 ##' @keywords preprocessing
 ##'
