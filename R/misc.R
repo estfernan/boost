@@ -41,6 +41,33 @@ vectorized_pdist <- function(A,B)
 }
 
 # //////////////////////////////////////////////////////////////////////////////
+# Formatting functions ----
+# //////////////////////////////////////////////////////////////////////////////
+
+#'
+#' Utility function for formatting p-values to use in the printing functions.
+#'
+#' @noRd
+#' @keywords internal
+#'
+pval.format <- function(x, accuracy = 0.001, digits = 3)
+{
+  p.val <- round(x, digits = digits)
+
+  if (p.val < accuracy)
+  {
+    p.val <- paste0("<", accuracy)
+  }
+
+  else if (p.val > 1 - accuracy)
+  {
+    p.val <- paste0(">", 1 - accuracy)
+  }
+
+  return(p.val)
+}
+
+# //////////////////////////////////////////////////////////////////////////////
 # Graphics functions ----
 # //////////////////////////////////////////////////////////////////////////////
 
