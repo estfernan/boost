@@ -36,7 +36,7 @@
 ##' @param spots An \eqn{n}-by-\eqn{2} numeric matrix \eqn{T} to represent the
 ##'   geospatial profile, where each row indicates the spot location in
 ##'   the grid.
-##' @param n.neighbor An integer value that denotes the number of neighbors or
+##' @param n.neighbors An integer value that denotes the number of neighbors or
 ##'   connectivity. See "Details" for more information.
 ##' @param method An optional character string that specifies the method to
 ##'   obtain the neighboring spots. The default is "distance" to set
@@ -51,9 +51,6 @@
 ##'   Spatial Transcriptomics Data via a Modified Ising Model.
 ##'   *arXiv preprint arXiv:2104.13957*.
 ##'
-##' @examples
-##' ## Need to implement the example.
-##'
 ##' @seealso
 ##' [st.plot()] for plotting the expression levels and, hence, the lattice grid.
 ##'
@@ -62,7 +59,7 @@
 ##'
 ##' @importFrom dbscan kNN
 ##'
-get.neighbors <- function(spots, n.neighbor, method = c("distance", "KNN"))
+get.neighbors <- function(spots, n.neighbors, method = c("distance", "KNN"))
 {
   if (length(method) > 1)
   {
@@ -71,17 +68,17 @@ get.neighbors <- function(spots, n.neighbor, method = c("distance", "KNN"))
 
   n <- nrow(spots)
 
-  P     <- matrix(0, nrow = n, ncol = n.neighbor)
+  P     <- matrix(0, nrow = n, ncol = n.neighbors)
   spots <- as.matrix(spots)
 
   if (method == "distance")
   {
-    if (n.neighbor == 4)
+    if (n.neighbors == 4)
     {
       spots <- round(spots)
       aa    <- sqrt(2)
     }
-    else if (n.neighbor == 6)
+    else if (n.neighbors == 6)
     {
       aa <- sqrt(3)
     }
@@ -111,7 +108,7 @@ get.neighbors <- function(spots, n.neighbor, method = c("distance", "KNN"))
   }
   else if (method == "KNN")
   {
-    re_temp <- kNN(spots, k = n.neighbor)
+    re_temp <- kNN(spots, k = n.neighbors)
     P       <- re_temp$id
   }
   else

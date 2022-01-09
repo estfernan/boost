@@ -33,8 +33,4 @@ A \code{ggplot} object.
 Plot the absolute, dichotomised, or relative gene expression levels in a
 spatial transcriptomics (ST) dataset.
 }
-\examples{
-## Need to implement this example.
-
-}
 \keyword{plot}
