@@ -1,3 +1,4 @@
+\dontrun{
 library(boost)
 
 ## load sample dataset
@@ -10,3 +11,4 @@ A <- get.neighbors(mob.spots, 4, method = "distance")
 ## fit the model
 res <- BOOST.Ising(g, A, gene.name = "Apoe", n.iter = 500)
 print(res)
+}
