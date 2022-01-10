@@ -41,7 +41,7 @@ Imports:
     utils
 Suggests: 
     SPARK,
-    SpatialDE
+    spatialDE
 Depends:
   R (>= 3.5.0)
 License: GPL (>= 3)
