@@ -1,7 +1,8 @@
-#include <chrono>
 #include <RcppArmadillo.h>
 #include <RcppArmadilloExtensions/sample.h>
 #include <RcppDist.h>
+
+#include <chrono>
 
 // [[Rcpp::depends(RcppArmadillo, RcppDist)]]
 
@@ -17,28 +18,14 @@ static arma::uvec which(IntegerVector x, int c);
 static arma::uvec which_stop(IntegerVector x);
 static arma::uvec as_uvec(int j);
 
-//
-// TO-DO: I need to clean up the code and maybe add .h files
-//        I need to figure out what (hyper)parameters should be user-specified.
-//        Implement progress bar or option to monitor convergence/process
-//        Uncomment a_omega, b_omage and comment out omega
-//        I need to figure out how to replace omega in code
-//
-
-// [[Rcpp::export(.BOOST_GP_MCMC_cpp)]]
-Rcpp::List BOOST_GP_MCMC_cpp(
-    arma::mat Y, arma::mat dist, IntegerMatrix nei,
-    NumericVector s,
+// [[Rcpp::export(.boost_gp)]]
+Rcpp::List boost_gp(
+    arma::mat Y, arma::mat dist, IntegerMatrix nei, NumericVector s,
     int iter, int burn,
-    double update_prop,
-    double init_b_sigma, double init_h
+    double init_b_sigma, double init_h,
+    double update_prop
 )
 {
-  //
-  // NOTE: The code below has not been thoroughly checked and reformatted for a
-  //         better understanding
-  //
-
   // Read data information
   int n = Y.n_rows;
   int p = Y.n_cols;
@@ -220,7 +207,7 @@ Rcpp::List BOOST_GP_MCMC_cpp(
         if (it > burn) {
           try_phi++;
         }
-        if(hastings >= log(R::runif(0, 1))) {
+        if(hastings >= log(double(rand()%10001)/10000)) {
           phi(j) = phi_temp;
           if (it > burn) {
             accept_phi++;
@@ -235,7 +222,7 @@ Rcpp::List BOOST_GP_MCMC_cpp(
         K = K_builder(dist, l(j));
       }
       for(f = 0; f < F; f++) {
-        i = R::runif(1, n) - 1;
+        i = rand()%n;
         //if (Y(i, j) == 0)
         //{
         //  loglambda_temp = rnorm(1, 0, tau_log_lambda)(0);
@@ -293,7 +280,7 @@ Rcpp::List BOOST_GP_MCMC_cpp(
         if (it > burn) {
           try_lambda++;
         }
-        if (hastings >= log(R::runif(0, 1))) {
+        if (hastings >= log(double(rand()%10001)/10000)) {
           logLambda(i, j) = loglambda_temp;
           if (it > burn) {
             accept_lambda++;
@@ -313,7 +300,7 @@ Rcpp::List BOOST_GP_MCMC_cpp(
 
     // Update gamma
     for(e = 0; e < E; e++) {
-      j = R::runif(1, p) - 1;
+      j = rand()%p;
       gamma_temp = 1 - gamma(j);
       if(gamma_temp == 0) {// Delete
         hastings = 0;
@@ -353,7 +340,7 @@ Rcpp::List BOOST_GP_MCMC_cpp(
       if (it > burn) {
         try_gamma++;
       }
-      if (hastings >= log(R::runif(0, 1))) {
+      if (hastings >= log(double(rand()%10001)/10000)) {
         gamma(j) = gamma_temp;
         if(gamma_temp == 1) {// Add
           gamma_sum_temp++;
@@ -393,7 +380,7 @@ Rcpp::List BOOST_GP_MCMC_cpp(
         if (it > burn) {
           try_l++;
         }
-        if (hastings >= log(R::runif(0, 1))) {
+        if (hastings >= log(double(rand()%10001)/10000)) {
           l(j) = l_temp;
           log_K_det(j) = log_K_det_temp*log_K_det_sign_temp;
           K_inv_sum(j) = K_inv_sum_temp;
@@ -410,12 +397,14 @@ Rcpp::List BOOST_GP_MCMC_cpp(
     }
 
     // Monitor the process
-    if(it*100/iter == count) {
-      Rcout<<count<< "% has been done\n";
-      count = count + 10;
-    }
+    // if(it*100/iter == count) {
+    //   Rcout<<count<< "% has been done\n";
+    //   count = count + 10;
+    // }
+
     H_sum(it) = 0;
     gamma_sum(it) = gamma_sum_temp;
+
     for(i = 0; i < n; i++) {
       pi_store(it, i) = pi(i);
       H_sum(it) = H_sum(it) + H_sum_temp(i);
@@ -443,28 +432,27 @@ Rcpp::List BOOST_GP_MCMC_cpp(
       H_ppi(i, j) = H_ppi(i, j)/(iter - burn);
     }
   }
+  accept_phi = accept_phi/try_phi;
+  accept_lambda = accept_lambda/try_lambda;
+  accept_gamma = accept_gamma/try_gamma;
+  accept_l = accept_l/try_l;
 
-  List accept = List::create(
-    _["phi"]    = accept_phi    / try_phi,
-    _["lambda"] = accept_lambda / try_lambda,
-    _["gamma"]  = accept_gamma  / try_gamma,
-    _["l"]      = accept_l      / try_l
-  );
-
-  return List::create(
-    _["logBF"]     = logBF,
-    _["H_sum"]     = H_sum,
-    _["H_ppi"]     = H_ppi,
-    _["pi_s"]      = pi_store,
-    _["phi_s"]     = phi_store,
-    _["logLambda"] = logLambda,
-    _["gamma_sum"] = gamma_sum,
-    _["gamma_ppi"] = gamma_ppi,
-    _["gamma_s"]   = gamma_store,
-    _["omega_s"]   = omega_store,
-    _["l_s"]       = l_store,
-    _["accept"]    = accept,       // acceptance probabilities
-    _["time"]      = time.count()  // execution time
+  return Rcpp::List::create(
+    Rcpp::Named("logBF") = logBF,
+    Rcpp::Named("H_sum") = H_sum,
+    Rcpp::Named("H_ppi") = H_ppi,
+    Rcpp::Named("pi") = pi_store,
+    Rcpp::Named("phi") = phi_store,
+    Rcpp::Named("logLambda") = logLambda,
+    Rcpp::Named("gamma_sum") = gamma_sum,
+    Rcpp::Named("gamma_ppi") = gamma_ppi,
+    Rcpp::Named("gamma") = gamma_store,
+    Rcpp::Named("omega") = omega_store,
+    Rcpp::Named("l") = l_store,
+    Rcpp::Named("accept_lambda") = accept_lambda,
+    Rcpp::Named("accept_gamma") = accept_gamma,
+    Rcpp::Named("accept_l") = accept_l,
+    Rcpp::Named("time")     = time.count()  // execution time
   );
 }
 

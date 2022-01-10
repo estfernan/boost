@@ -55,9 +55,6 @@
 ##' @param init.h A numeric value to specify the scaling of the variance for
 ##'   the normal prior set on each coefficient. The default is one to not scale
 ##'   the variance.
-##' @param verbose A logical value that specifies if the function should
-##'   monitor the algorithm's convergence. The default is `TRUE` to display the
-##'   progress of the algorithm.
 ##'
 ##' @return `BOOST.GP` returns an object of class "`BOOST.GP`".
 ##'   The function [base::print()] i.e., [print.BOOST.GP()], can be used to
@@ -76,11 +73,11 @@
 ##' of Spatial Molecular Profiling Data via Gaussian Process.
 ##' *arXiv preprint arXiv:2012.03326*.
 ##'
-##' @examples
-##' ## Need to implement the example for the procedure.
+##' @example inst/examples/ex_GP.R
 ##'
 ##' @seealso
-##' [print.BOOST.GP] for printing a summary of results to console.
+##' [get.size.factor()] for estimating the size factor;
+##' [print.BOOST.GP()] for printing a summary of results to console.
 ##'
 ##' @export
 ##' @keywords method BOOST-GP
@@ -93,8 +90,7 @@ BOOST.GP <- function(
   gene.name = NULL,
   n.iter = 1e4, burn.prop = 0.50,
   update.prop = 0.2,
-  init.b.sigma = NULL, init.h = 1,
-  verbose = TRUE
+  init.b.sigma = NULL, init.h = 1
 )
 {
   ##
@@ -129,11 +125,12 @@ BOOST.GP <- function(
   D    <- dist.GP(spots, 2)
   burn <- ceiling(n.iter * burn.prop)
 
-  MCMC <- .BOOST_GP_MCMC_cpp(
+  MCMC <- .boost_gp(
     Y, D$dist, D$nei,
     size.factor,
-    n.iter, burn, update.prop,
-    init.b.sigma, init.h
+    n.iter, burn,
+    init.b.sigma, init.h,
+    update.prop
   )
 
   iter <- seq(burn + 1, n.iter)
@@ -148,7 +145,7 @@ BOOST.GP <- function(
   BF    <- 19 * MCMC$gamma_ppi / (1 - MCMC$gamma_ppi + 10^(-10))
   p.val <- pchisq(BF * 2, df = 1, lower.tail = FALSE)
 
-  l <- MCMC$l_s[iter, 1]
+  l <- MCMC$l[iter, 1]
   l <- sum(l * log.lr) / sum(log.lr)
 
   log.lambda <- round(MCMC$logLambda[, 1], 3)
@@ -156,22 +153,30 @@ BOOST.GP <- function(
   est <- with(
     MCMC,
     {
-      phi     <- phi_s[iter]
+      phi     <- phi[iter]
       lambda  <- exp(log.lambda)[iter]
-      l       <- l_s[iter]
+      l       <- l[iter]
 
       data.frame(
         "Estimate" = c(
-          mean(phi), mean(lambda), mean(l)
+          mean(phi, na.rm = TRUE),
+          mean(lambda, na.rm = TRUE),
+          mean(l, na.rm = TRUE)
         ),
         "Std. Error" = c(
-          sd(phi), sd(lambda), sd(l)
+          sd(phi, na.rm = TRUE),
+          sd(lambda, na.rm = TRUE),
+          sd(l, na.rm = TRUE)
         ),
         "Lower 95% CI" = c(
-          quantile(phi, 0.025), quantile(lambda, 0.025), quantile(l, 0.025)
+          quantile(phi, 0.025, na.rm = TRUE),
+          quantile(lambda, 0.025, na.rm = TRUE),
+          quantile(l, 0.025, na.rm = TRUE)
         ),
         "Upper 95% CI" = c(
-          quantile(phi, 0.975), quantile(lambda, 0.975), quantile(l, 0.975)
+          quantile(phi, 0.975, na.rm = TRUE),
+          quantile(lambda, 0.975, na.rm = TRUE),
+          quantile(l, 0.975, na.rm = TRUE)
         ),
         row.names = c("Dispersion", "Normalized gene expression levels", "Kernel"),
         check.names = FALSE

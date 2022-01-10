@@ -13,8 +13,7 @@ BOOST.GP(
   burn.prop = 0.5,
   update.prop = 0.2,
   init.b.sigma = NULL,
-  init.h = 1,
-  verbose = TRUE
+  init.h = 1
 )
 }
 \arguments{
@@ -55,10 +54,6 @@ the log-expression levels.}
 \item{init.h}{A numeric value to specify the scaling of the variance for
 the normal prior set on each coefficient. The default is one to not scale
 the variance.}
-
-\item{verbose}{A logical value that specifies if the function should
-monitor the algorithm's convergence. The default is \code{TRUE} to display the
-progress of the algorithm.}
 }
 \value{
 \code{BOOST.GP} returns an object of class "\code{BOOST.GP}".
@@ -86,8 +81,20 @@ selection indicator. See Li et al. (2020) for more information on the
 model fitting and posterior inference procedures.
 }
 \examples{
-## Need to implement the example for the procedure.
+\dontrun{
+library(boost)
 
+## load sample dataset
+data(mob)
+
+## extract a sample gene and get size factor
+g <- mob[, "Apoe"]
+s <- get.size.factor(mob, estimation.method = "TSS")
+
+## fit the model
+res <- BOOST.GP(g, mob.spots, size.factor = s, gene.name = "Apoe", n.iter = 200)
+print(res)
+}
 }
 \references{
 Li, Q., Zhang M., Xie Y., & Xiao, G. (2020). Bayesian Modeling
