@@ -77,8 +77,6 @@
 ##' @export
 ##' @keywords method
 ##'
-##' @importFrom spatialDE run
-##'
 SpatialDE <- function(norm.expr, spots, gene.name = NULL)
 {
   if (!is.vector(norm.expr))

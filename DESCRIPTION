@@ -39,6 +39,9 @@ Imports:
     stats,
     ggplot2,
     utils
+Suggests: 
+    SPARK,
+    SpatialDE
 Depends:
   R (>= 3.5.0)
 License: GPL (>= 3)

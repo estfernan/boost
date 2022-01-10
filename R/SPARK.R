@@ -67,7 +67,6 @@
 ##' @export
 ##' @keywords method
 ##'
-##' @importFrom SPARK CreateSPARKObject spark.vc spark.test
 ##' @importFrom utils capture.output
 ##'
 SPARK <- function(abs.expr, spots, size.factor, gene.name = NULL)
@@ -95,10 +94,10 @@ SPARK <- function(abs.expr, spots, size.factor, gene.name = NULL)
   rownames(count_spark) <- gene.name
   stt <- Sys.time()
 
-  spark <- CreateSPARKObject(counts = count_spark,
-                             location = loc_spark,
-                             percentage = 0,
-                             min_total_counts = 0)
+  spark <- SPARK::CreateSPARKObject(counts = count_spark,
+                                    location = loc_spark,
+                                    percentage = 0,
+                                    min_total_counts = 0)
 
   ## total counts for each cell/spot
   spark@lib_size <- size.factor
@@ -106,15 +105,15 @@ SPARK <- function(abs.expr, spots, size.factor, gene.name = NULL)
   invisible(
     capture.output(
       {
-        spark <- spark.vc(spark,
-                          covariates = NULL,
-                          lib_size = spark@lib_size,
-                          num_core = 1,
-                          verbose = FALSE)
+        spark <- SPARK::spark.vc(spark,
+                                 covariates = NULL,
+                                 lib_size = spark@lib_size,
+                                 num_core = 1,
+                                 verbose = FALSE)
 
-        spark <- spark.test(spark,
-                            check_positive = TRUE,
-                            verbose = FALSE)
+        spark <- SPARK::spark.test(spark,
+                                   check_positive = TRUE,
+                                   verbose = FALSE)
       }
     )
   )
