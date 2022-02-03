@@ -40,11 +40,11 @@ Imports:
     ggplot2,
     utils,
     SPARK,
-    spatialDE
+    spatialDE,
     pROC,
     TopKLists
 Remotes:
-  bioc::release/spatialDE
+  bioc::release/spatialDE,
   github::xzhoulab/SPARK
 Depends:
   R (>= 3.5.0)
