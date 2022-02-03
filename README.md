@@ -1,7 +1,7 @@
 boost
 =====
 
-[![Build Status][gha-icon]][gha-url]
+<!-- [![Build Status][gha-icon]][gha-url] -->
 
 The R package **boost** (Bayesian Modeling of Spatial Transcriptomics Data)
 provides functions to detect spatially variable (SV) genes in 
