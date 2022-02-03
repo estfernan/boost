@@ -39,11 +39,13 @@ Imports:
     stats,
     ggplot2,
     utils,
-    pROC,
-    TopKLists
-Suggests: 
     SPARK,
     spatialDE
+    pROC,
+    TopKLists
+Remotes:
+  bioc::release/spatialDE
+  github::xzhoulab/SPARK
 Depends:
   R (>= 3.5.0)
 License: GPL (>= 3)
