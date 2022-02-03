@@ -207,7 +207,7 @@ Rcpp::List boost_gp(
         if (it > burn) {
           try_phi++;
         }
-        if(hastings >= log(double(rand()%10001)/10000)) {
+        if(hastings >= log(R::runif(0, 1))) {
           phi(j) = phi_temp;
           if (it > burn) {
             accept_phi++;
@@ -222,7 +222,7 @@ Rcpp::List boost_gp(
         K = K_builder(dist, l(j));
       }
       for(f = 0; f < F; f++) {
-        i = rand()%n;
+        i = as<int>(sample(n, 1)) - 1; // rand()%n
         //if (Y(i, j) == 0)
         //{
         //  loglambda_temp = rnorm(1, 0, tau_log_lambda)(0);
@@ -280,7 +280,7 @@ Rcpp::List boost_gp(
         if (it > burn) {
           try_lambda++;
         }
-        if (hastings >= log(double(rand()%10001)/10000)) {
+        if (hastings >= log(R::runif(0, 1))) {
           logLambda(i, j) = loglambda_temp;
           if (it > burn) {
             accept_lambda++;
@@ -300,7 +300,7 @@ Rcpp::List boost_gp(
 
     // Update gamma
     for(e = 0; e < E; e++) {
-      j = rand()%p;
+      j = as<int>(sample(p, 1)) - 1; // rand()%p
       gamma_temp = 1 - gamma(j);
       if(gamma_temp == 0) {// Delete
         hastings = 0;
@@ -340,7 +340,7 @@ Rcpp::List boost_gp(
       if (it > burn) {
         try_gamma++;
       }
-      if (hastings >= log(double(rand()%10001)/10000)) {
+      if (hastings >= log(R::runif(0, 1))) {
         gamma(j) = gamma_temp;
         if(gamma_temp == 1) {// Add
           gamma_sum_temp++;
@@ -380,7 +380,7 @@ Rcpp::List boost_gp(
         if (it > burn) {
           try_l++;
         }
-        if (hastings >= log(double(rand()%10001)/10000)) {
+        if (hastings >= log(R::runif(0, 1))) {
           l(j) = l_temp;
           log_K_det(j) = log_K_det_temp*log_K_det_sign_temp;
           K_inv_sum(j) = K_inv_sum_temp;
