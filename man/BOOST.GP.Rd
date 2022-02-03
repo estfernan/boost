@@ -102,7 +102,8 @@ of Spatial Molecular Profiling Data via Gaussian Process.
 \emph{arXiv preprint arXiv:2012.03326}.
 }
 \seealso{
-\link{print.BOOST.GP} for printing a summary of results to console.
+\code{\link[=get.size.factor]{get.size.factor()}} for estimating the size factor;
+\code{\link[=print.BOOST.GP]{print.BOOST.GP()}} for printing a summary of results to console.
 }
 \keyword{BOOST-GP}
 \keyword{method}
