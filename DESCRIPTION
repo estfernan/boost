@@ -38,7 +38,9 @@ Imports:
     Rcpp,
     stats,
     ggplot2,
-    utils
+    utils,
+    pROC,
+    TopKLists
 Suggests: 
     SPARK,
     spatialDE
