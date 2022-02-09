@@ -32,6 +32,18 @@
 ##' @return A list object that contains six performance metrics
 ##'   (Sensitivity, Specificity, F1_score, FDR, AUC, and MCC).
 ##'
+##' @references
+##'
+##' Li, X., Wang, X., & Xiao, G. (2019). A comparative study of rank
+##' aggregation methods for partial and top ranked lists in genomic
+##' applications. _Briefings in bioinformatics_, _20_(1), 178–189.
+##' <https://doi.org/10.1093/bib/bbx101>.
+##'
+##' Robin, X., Turck, N., Hainard, A. et al. pROC: an open-source package for
+##' R and S+ to analyze and compare ROC curves.
+##' _BMC Bioinformatics_ **12**, 77 (2011).
+##' <https://doi.org/10.1186/1471-2105-12-77>.
+##'
 ##' @export
 ##' @keywords metrics
 ##'

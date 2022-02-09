@@ -37,11 +37,18 @@
 ##'
 ##' @return A numeric matrix that represents a table with genes and their rank.
 ##'
-##' @references Schimek M., Budinska E., Kugler K., Svendova V., Ding J., Lin S.
-##'   (2015). “TopKLists: a comprehensive R package for statistical inference,
-##'   stochastic aggregation, and visualization of multiple omics ranked lists.”
-##'   _Stat Appl Genet Mol Biol_, 311-6.
-##'   <http://www.degruyter.com/doi/10.1515/sagmb-2014-0093>.
+##' @references
+##'
+##' Li, X., Wang, X., & Xiao, G. (2019). A comparative study of rank
+##' aggregation methods for partial and top ranked lists in genomic
+##' applications. _Briefings in bioinformatics_, _20_(1), 178–189.
+##' <https://doi.org/10.1093/bib/bbx101>.
+##'
+##' Schimek M., Budinska E., Kugler K., Svendova V., Ding J., Lin S.
+##' (2015). “TopKLists: a comprehensive R package for statistical inference,
+##' stochastic aggregation, and visualization of multiple omics ranked lists.”
+##' _Stat Appl Genet Mol Biol_, 311-6.
+##' <http://www.degruyter.com/doi/10.1515/sagmb-2014-0093>.
 ##'
 ##' @export
 ##' @importFrom TopKLists Borda MC
@@ -58,7 +65,7 @@ rank.aggregation <- function(
   ## Order data by gene name
   data <- data[order(data$gene), ]
 
-  ## data Pre-processing for rank aggregation ==================================
+  ## data Pre-processing for rank aggregation ================================
 
   ## Sort out rows with missing values for all methods
   mm   <- which(rowSums(is.na(data[, 2:(p + 1)])) == p)
@@ -81,7 +88,7 @@ rank.aggregation <- function(
   ## Generate the list containing individual ranked lists.
   input <- lapply(2:(p + 1), function(x) data$gene[order(data[, x], na.last = NA)])
 
-  ## Rank aggregation using geometric mean (GEO) ===============================
+  ## Rank aggregation using geometric mean (GEO) =============================
   if (method == 'GEO')
   {
     borda = Borda(input)
@@ -97,7 +104,7 @@ rank.aggregation <- function(
     temp$rank[temp$gene %in% gene_tt] <- length(gene_top) + 1
   }
 
-  ## Rank aggregation using MC2 ================================================
+  ## Rank aggregation using MC2 ==============================================
   else if (method == 'MC2')
   {
     ## MC2 rank result
@@ -120,7 +127,7 @@ rank.aggregation <- function(
   output <- rbind(data, temp)
   output <- output[order(output$gene), c(1, (p + 2))]
 
-  ## Export the results ========================================================
+  ## Export the results ======================================================
 
   return(output)
 }

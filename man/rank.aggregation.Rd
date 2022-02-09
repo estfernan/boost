@@ -36,6 +36,11 @@ Generate an aggregated ranking from multiple base rankers.
 See Schimek, M. G. et al. (2015) for more information on the procedure.
 }
 \references{
+Li, X., Wang, X., & Xiao, G. (2019). A comparative study of rank
+aggregation methods for partial and top ranked lists in genomic
+applications. \emph{Briefings in bioinformatics}, \emph{20}(1), 178–189.
+\url{https://doi.org/10.1093/bib/bbx101}.
+
 Schimek M., Budinska E., Kugler K., Svendova V., Ding J., Lin S.
 (2015). “TopKLists: a comprehensive R package for statistical inference,
 stochastic aggregation, and visualization of multiple omics ranked lists.”
