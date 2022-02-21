@@ -26,6 +26,7 @@
 {
   packageStartupMessage(
     paste0(
+      "\n",
       "boost: Bayesian modeling of spatial transcriptomics data\n",
       "\n",
       "To use the SPARK model, please install the source package by:\n",
@@ -39,7 +40,8 @@
       "  #> BiocManager::install('spatialDE')\n",
       "\n",
       "More information about the package can be found in ",
-      "<https://github.com/estfernan/boost>."
+      "<https://github.com/estfernan/boost>.",
+      "\n"
     )
   )
 }
