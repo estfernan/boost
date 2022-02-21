@@ -40,7 +40,7 @@
 ##'   passed. To be used when storing the results. The default value is `NULL`
 ##'   to keep the gene expression levels unnamed.
 ##' @param n.iter An integer value to specify the number of iterations for the
-##'   DMH algorithm. The default is 10,000 iterations.
+##'   DMH algorithm. The default is 2,000 iterations.
 ##' @param burn.prop A numeric value to specify the proportion of iterations to
 ##'   use as warm-up. The default is 0.50 to use half of the iterations
 ##'   for warm-up.
@@ -88,7 +88,7 @@ BOOST.GP <- function(
   abs.expr, spots,
   size.factor = NULL,
   gene.name = NULL,
-  n.iter = 1e4, burn.prop = 0.50,
+  n.iter = 2e3, burn.prop = 0.50,
   update.prop = 0.2,
   init.b.sigma = NULL, init.h = 1
 )
