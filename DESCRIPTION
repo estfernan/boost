@@ -36,6 +36,7 @@ Imports:
     mclust,
     dbscan,
     Rcpp,
+    RcppDist,
     stats,
     ggplot2,
     utils,
