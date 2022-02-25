@@ -9,6 +9,6 @@ g <- mob[, "Apoe"]
 s <- get.size.factor(mob, estimation.method = "TSS")
 
 ## fit the model
-res <- BOOST.GP(g, mob.spots, size.factor = s, gene.name = "Apoe", n.iter = 200)
+res <- BOOST.GP(g, mob.spots, size.factor = s, gene.name = "Apoe")
 print(res)
 }

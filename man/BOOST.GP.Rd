@@ -9,7 +9,7 @@ BOOST.GP(
   spots,
   size.factor = NULL,
   gene.name = NULL,
-  n.iter = 2000,
+  n.iter = 1000,
   burn.prop = 0.5,
   update.prop = 0.2,
   init.b.sigma = NULL,
@@ -35,7 +35,7 @@ passed. To be used when storing the results. The default value is \code{NULL}
 to keep the gene expression levels unnamed.}
 
 \item{n.iter}{An integer value to specify the number of iterations for the
-DMH algorithm. The default is 2,000 iterations.}
+DMH algorithm. The default is 1,000 iterations.}
 
 \item{burn.prop}{A numeric value to specify the proportion of iterations to
 use as warm-up. The default is 0.50 to use half of the iterations
@@ -92,7 +92,7 @@ g <- mob[, "Apoe"]
 s <- get.size.factor(mob, estimation.method = "TSS")
 
 ## fit the model
-res <- BOOST.GP(g, mob.spots, size.factor = s, gene.name = "Apoe", n.iter = 200)
+res <- BOOST.GP(g, mob.spots, size.factor = s, gene.name = "Apoe")
 print(res)
 }
 }
