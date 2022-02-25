@@ -1,9 +1,6 @@
 #include <RcppArmadillo.h>
 #include <RcppArmadilloExtensions/sample.h>
 #include <RcppDist.h>
-
-#include <chrono>
-
 // [[Rcpp::depends(RcppArmadillo, RcppDist)]]
 
 using namespace Rcpp;
@@ -19,13 +16,7 @@ static arma::uvec which_stop(IntegerVector x);
 static arma::uvec as_uvec(int j);
 
 // [[Rcpp::export(.boost_gp)]]
-Rcpp::List boost_gp(
-    arma::mat Y, arma::mat dist, IntegerMatrix nei, NumericVector s,
-    int iter, int burn,
-    double init_b_sigma, double init_h,
-    double update_prop
-)
-{
+Rcpp::List boost(arma::mat Y, arma::mat dist, IntegerMatrix nei, NumericVector s, int iter, int burn, double init_b_sigma, double init_h, double update_prop) {
   // Read data information
   int n = Y.n_rows;
   int p = Y.n_cols;
@@ -95,6 +86,9 @@ Rcpp::List boost_gp(
   IntegerMatrix gamma_store(iter, p);
   NumericMatrix l_store(iter, p);
 
+  //Change 1: add new variable: loglambda_store
+  NumericMatrix loglambda_store(n,p);
+
   // Initialization
   double phi_start = 10, loglambda_start = log(mean(mean(Y))), l_start = t_min/2;
   for (j = 0; j < p; j++) {
@@ -137,8 +131,6 @@ Rcpp::List boost_gp(
     G2_temp = (logLambda.submat(which(H(_, j), 0), as_uvec(j)).t()*create_ones(n_eff(j), n_eff(j))*logLambda.submat(which(H(_, j), 0), as_uvec(j))/(1.0*n_eff(j) + 1.0/h)).eval()(0, 0);
     loglambda_null(j) = -log(1.0*n_eff(j) + 1.0/h)/2.0 - (a_sigma + 1.0*n_eff(j)/2.0)*log(b_sigma + G1_temp/2.0 - G2_temp/2.0);
   }
-
-  auto start = std::chrono::high_resolution_clock::now();
 
   // MCMC
   for (it = 0; it < iter; it++) {
@@ -207,7 +199,7 @@ Rcpp::List boost_gp(
         if (it > burn) {
           try_phi++;
         }
-        if(hastings >= log(R::runif(0, 1))) {
+        if(hastings >= log(double(rand()%10001)/10000)) {
           phi(j) = phi_temp;
           if (it > burn) {
             accept_phi++;
@@ -222,7 +214,7 @@ Rcpp::List boost_gp(
         K = K_builder(dist, l(j));
       }
       for(f = 0; f < F; f++) {
-        i = as<int>(sample(n, 1)) - 1; // rand()%n
+        i = rand()%n;
         //if (Y(i, j) == 0)
         //{
         //  loglambda_temp = rnorm(1, 0, tau_log_lambda)(0);
@@ -280,7 +272,7 @@ Rcpp::List boost_gp(
         if (it > burn) {
           try_lambda++;
         }
-        if (hastings >= log(R::runif(0, 1))) {
+        if (hastings >= log(double(rand()%10001)/10000)) {
           logLambda(i, j) = loglambda_temp;
           if (it > burn) {
             accept_lambda++;
@@ -300,7 +292,7 @@ Rcpp::List boost_gp(
 
     // Update gamma
     for(e = 0; e < E; e++) {
-      j = as<int>(sample(p, 1)) - 1; // rand()%p
+      j = rand()%p;
       gamma_temp = 1 - gamma(j);
       if(gamma_temp == 0) {// Delete
         hastings = 0;
@@ -340,7 +332,7 @@ Rcpp::List boost_gp(
       if (it > burn) {
         try_gamma++;
       }
-      if (hastings >= log(R::runif(0, 1))) {
+      if (hastings >= log(double(rand()%10001)/10000)) {
         gamma(j) = gamma_temp;
         if(gamma_temp == 1) {// Add
           gamma_sum_temp++;
@@ -380,7 +372,7 @@ Rcpp::List boost_gp(
         if (it > burn) {
           try_l++;
         }
-        if (hastings >= log(R::runif(0, 1))) {
+        if (hastings >= log(double(rand()%10001)/10000)) {
           l(j) = l_temp;
           log_K_det(j) = log_K_det_temp*log_K_det_sign_temp;
           K_inv_sum(j) = K_inv_sum_temp;
@@ -397,18 +389,27 @@ Rcpp::List boost_gp(
     }
 
     // Monitor the process
-    // if(it*100/iter == count) {
-    //   Rcout<<count<< "% has been done\n";
-    //   count = count + 10;
-    // }
-
+    if(it*100/iter == count) {
+      Rcout<<count<< "% has been done\n";
+      count = count + 10;
+    }
     H_sum(it) = 0;
     gamma_sum(it) = gamma_sum_temp;
-
     for(i = 0; i < n; i++) {
       pi_store(it, i) = pi(i);
       H_sum(it) = H_sum(it) + H_sum_temp(i);
     }
+
+    // Change 2: store loglambda
+    if (it > burn){
+      for(i = 0; i < n; i++) {
+        for(j = 0; j < p; j++) {
+          loglambda_store(i, j) = loglambda_store(i, j) + logLambda(i, j);
+        }
+      }
+    }
+
+
     for(j = 0; j < p; j++) {
       phi_store(it, j) = phi(j);
       gamma_store(it, j) = gamma(j);
@@ -423,8 +424,12 @@ Rcpp::List boost_gp(
     }
   }
 
-  auto stop = std::chrono::high_resolution_clock::now();
-  auto time = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
+  // Change 3: Calculate mean loglambda
+  for(i = 0; i < n; i++) {
+    for(j = 0; j < p; j++) {
+      loglambda_store(i, j) = loglambda_store(i, j)/(iter - burn);
+    }
+  }
 
   for(j = 0; j < p; j++) {
     gamma_ppi(j) = gamma_ppi(j)/(iter - burn);
@@ -437,23 +442,7 @@ Rcpp::List boost_gp(
   accept_gamma = accept_gamma/try_gamma;
   accept_l = accept_l/try_l;
 
-  return Rcpp::List::create(
-    Rcpp::Named("logBF") = logBF,
-    Rcpp::Named("H_sum") = H_sum,
-    Rcpp::Named("H_ppi") = H_ppi,
-    Rcpp::Named("pi") = pi_store,
-    Rcpp::Named("phi") = phi_store,
-    Rcpp::Named("logLambda") = logLambda,
-    Rcpp::Named("gamma_sum") = gamma_sum,
-    Rcpp::Named("gamma_ppi") = gamma_ppi,
-    Rcpp::Named("gamma") = gamma_store,
-    Rcpp::Named("omega") = omega_store,
-    Rcpp::Named("l") = l_store,
-    Rcpp::Named("accept_lambda") = accept_lambda,
-    Rcpp::Named("accept_gamma") = accept_gamma,
-    Rcpp::Named("accept_l") = accept_l,
-    Rcpp::Named("time")     = time.count()  // execution time
-  );
+  return Rcpp::List::create(Rcpp::Named("logBF") = logBF, Rcpp::Named("H_sum") = H_sum, Rcpp::Named("H_ppi") = H_ppi, Rcpp::Named("pi") = pi_store, Rcpp::Named("phi") = phi_store, Rcpp::Named("logLambda") = loglambda_store, Rcpp::Named("gamma_sum") = gamma_sum, Rcpp::Named("gamma_ppi") = gamma_ppi, Rcpp::Named("gamma") = gamma_store, Rcpp::Named("omega") = omega_store, Rcpp::Named("l") = l_store, Rcpp::Named("accept_lambda") = accept_lambda, Rcpp::Named("accept_gamma") = accept_gamma, Rcpp::Named("accept_l") = accept_l);
 }
 
 arma::mat K_builder(arma::mat dist, double l) {

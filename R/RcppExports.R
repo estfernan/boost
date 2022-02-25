@@ -2,7 +2,7 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 .boost_gp <- function(Y, dist, nei, s, iter, burn, init_b_sigma, init_h, update_prop) {
-    .Call(`_boost_boost_gp`, Y, dist, nei, s, iter, burn, init_b_sigma, init_h, update_prop)
+    .Call(`_boost_boost`, Y, dist, nei, s, iter, burn, init_b_sigma, init_h, update_prop)
 }
 
 .BOOST_Ising_MCMC_cpp <- function(p, A, mean_omega0, sigma_omega0, mean_theta, sigma_theta, n_iter, burn, M, tau, omega0_init, theta_init) {

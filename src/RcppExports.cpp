@@ -11,9 +11,9 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// boost_gp
-Rcpp::List boost_gp(arma::mat Y, arma::mat dist, IntegerMatrix nei, NumericVector s, int iter, int burn, double init_b_sigma, double init_h, double update_prop);
-RcppExport SEXP _boost_boost_gp(SEXP YSEXP, SEXP distSEXP, SEXP neiSEXP, SEXP sSEXP, SEXP iterSEXP, SEXP burnSEXP, SEXP init_b_sigmaSEXP, SEXP init_hSEXP, SEXP update_propSEXP) {
+// boost
+Rcpp::List boost(arma::mat Y, arma::mat dist, IntegerMatrix nei, NumericVector s, int iter, int burn, double init_b_sigma, double init_h, double update_prop);
+RcppExport SEXP _boost_boost(SEXP YSEXP, SEXP distSEXP, SEXP neiSEXP, SEXP sSEXP, SEXP iterSEXP, SEXP burnSEXP, SEXP init_b_sigmaSEXP, SEXP init_hSEXP, SEXP update_propSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -26,7 +26,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type init_b_sigma(init_b_sigmaSEXP);
     Rcpp::traits::input_parameter< double >::type init_h(init_hSEXP);
     Rcpp::traits::input_parameter< double >::type update_prop(update_propSEXP);
-    rcpp_result_gen = Rcpp::wrap(boost_gp(Y, dist, nei, s, iter, burn, init_b_sigma, init_h, update_prop));
+    rcpp_result_gen = Rcpp::wrap(boost(Y, dist, nei, s, iter, burn, init_b_sigma, init_h, update_prop));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -54,7 +54,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_boost_boost_gp", (DL_FUNC) &_boost_boost_gp, 9},
+    {"_boost_boost", (DL_FUNC) &_boost_boost, 9},
     {"_boost_BOOST_Ising_MCMC_cpp", (DL_FUNC) &_boost_BOOST_Ising_MCMC_cpp, 12},
     {NULL, NULL, 0}
 };
