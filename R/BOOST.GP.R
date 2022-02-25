@@ -154,7 +154,7 @@ BOOST.GP <- function(
     MCMC,
     {
       phi     <- phi[iter]
-      lambda  <- exp(log.lambda)[iter]
+      lambda  <- exp(log.lambda)
       l       <- l[iter]
 
       data.frame(
