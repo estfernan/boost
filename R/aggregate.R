@@ -73,7 +73,7 @@ rank.aggregation <- function(
   temp <- data[mm, ]      # Save these data into particular file
   data <- data[-mm, ]     # remove these rows
   }
-  
+  else { temp <- data[mm, ]  # temp is a null dataframe}
   ## Sort out genes in the top K in any of the lists
   gene_top <- unique(c(sapply(2:(p + 1), function(x) data$gene[order(data[, x])][1:K])))
   
