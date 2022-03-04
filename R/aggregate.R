@@ -61,49 +61,57 @@ rank.aggregation <- function(
 {
   p <- dim(data)[2] - 1
   n <- dim(data)[1]
-
+  
   ## Order data by gene name
   data <- data[order(data$gene), ]
-
+  
   ## data Pre-processing for rank aggregation ================================
-
+  
   ## Sort out rows with missing values for all methods
   mm   <- which(rowSums(is.na(data[, 2:(p + 1)])) == p)
+  if (length(mm) > 0){
   temp <- data[mm, ]      # Save these data into particular file
   data <- data[-mm, ]     # remove these rows
-
-
+  }
+  
   ## Sort out genes in the top K in any of the lists
   gene_top <- unique(c(sapply(2:(p + 1), function(x) data$gene[order(data[, x])][1:K])))
-
+  
   ## Genes are not in the top K in any of the five lists
   gene_tt <- data$gene[!(data$gene %in% gene_top)] # %nin%
   tt <- data[!(data$gene %in% gene_top), ] # %nin%
+  if (dim(tt)[1] > 0){
+    if (dim(temp)[1] > 0){
   temp <- rbind(temp, tt)
-
+  }
+  else {temp <- tt}
+  }
+  
   ## Generate final dataset used for rank aggregation
   data <- data[data$gene %in% gene_top, ]
   data <- data[order(data$gene), ]
-
+  
   ## Generate the list containing individual ranked lists.
   input <- lapply(2:(p + 1), function(x) data$gene[order(data[, x], na.last = NA)])
-
+  
   ## Rank aggregation using geometric mean (GEO) =============================
   if (method == 'GEO')
   {
     borda = Borda(input)
-
+    
     ## GEO rank result
     score <- borda$Scores[, 3][order(borda$TopK[, 3])]
     data$rank <- rank(score, ties.method = ties.method)
-
+    
     ## Genes with all missing results are assigned with the missing values
+    if(dim(temp)[1] > 0){
     temp$rank <- NA
-
+    
     ## Gene not with all missing results but not ranked are assigned with maximum rank plus one.
     temp$rank[temp$gene %in% gene_tt] <- length(gene_top) + 1
+    }
   }
-
+  
   ## Rank aggregation using MC2 ==============================================
   else if (method == 'MC2')
   {
@@ -111,23 +119,28 @@ rank.aggregation <- function(
     MCO <- MC(input = input)
     score <- MCO$MC2.Prob[order(MCO$MC2.TopK)]
     data$rank <- rank(-score, ties.method = ties.method)  # Better rank (small values) with large probability
-
+    
+    if(dim(temp)[1] > 0){
     ## Genes with all missing results are assigned with the missing values
     temp$rank <- NA
-
+    
     ## Gene not with all missing results but not ranked are assigned with maximum rank plus one.
     temp$rank[temp$gene %in% gene_tt] <- length(gene_top) + 1
+    }
   }
-
+  
   else {
     stop("value passed to 'method' is not a valid option")
   }
-
+  
   ## Combine data
+  if(dim(temp)[1] > 0){
   output <- rbind(data, temp)
-  output <- output[order(output$gene), c(1, (p + 2))]
-
+  } else {output <- data}
+  output <- output[order(output$rank), c(1, (p + 2))]
+  
   ## Export the results ======================================================
-
+  
   return(output)
 }
+
