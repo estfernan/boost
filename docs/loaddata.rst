@@ -10,9 +10,8 @@ Both data should be stored in R matrix format. For gene expression count matrix 
 
 In the following, we conduct the analysis on Mouse Olfactory Bulb data as an example to show the functions of boost package.
 
-Files originally retrieved from the `SMP-Gym website <https://lce.biohpc.swmed.edu/smp_gym/explorer.php>`_ .:
-
-
+Files originally retrieved from the `SMP-Gym website <https://lce.biohpc.swmed.edu/smp_gym/explorer.php>`_ . 
+::
         library(utils)
         library(stats)
         library(grDevices)
@@ -28,11 +27,37 @@ Files originally retrieved from the `SMP-Gym website <https://lce.biohpc.swmed.e
         sample_info <- read.csv('mouse_olfactory_bulb_replicate_11.loc.csv')
         sample_info <- as.matrix(sample_info[, 1:2])
         gene_name <- read.csv('mouse_olfactory_bulb_replicate_11.gene_name.csv')
-
+        
+        # set column names of count as gene names 
         colnames(count) <- gene_name$x
 
         print(dim(count))
-        print(count[1:10, 1:10])
+        ## [1]   262 16218
         print(dim(sample_info))
-        print(head(sample_info))
+        ## [1] 262   2
         
+The Mouse Olfactory Bulb data has 262 sample points and 16218 genes. The 'sample_info' table records the x and y coordinates of all sample points. 
+::
+        print(count[1:10, 1:10])
+        ##       Nrf1 Zbtb5 Ccnl1 Lrrfip1 Bbs1 Lix1 Whrn Ate1 Ubac1 Rab34
+        ##  [1,]    1     1     1       2    1    2    1    1     2     1
+        ##  [2,]    0     0     3       2    2    7    0    2     3     2
+        ##  [3,]    0     1     1       0    0    0    1    0     0     0
+        ##  [4,]    1     0     1       0    4    6    1    4     3     1
+        ##  [5,]    0     0     0       3    0    2    0    2     4     0
+        ##  [6,]    0     0     0       5    0    1    1    0     2     0
+        ##  [7,]    0     0     2       1    3    4    0    3     2     0
+        ##  [8,]    1     1     3       0    1    3    0    4     0     0
+        ##  [9,]    0     0     2       0    0    4    0    1     0     2
+        ## [10,]    0     0     2       3    0    2    0    1     0     0
+       
+       print(head(sample_info))
+       ##           X      Y
+       ## [1,] 16.920  9.015
+       ## [2,] 16.945 11.075
+       ## [3,] 16.970 10.118
+       ## [4,] 16.939 12.132
+       ## [5,] 16.949 13.055
+       ## [6,] 16.942 15.088
+
+
