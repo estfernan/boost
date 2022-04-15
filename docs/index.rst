@@ -17,6 +17,7 @@ The R package boost (Bayesian Modeling of Spatial Transcriptomics Data) provides
 
    installation
    loaddata
+   preprocessing
 
 
 
