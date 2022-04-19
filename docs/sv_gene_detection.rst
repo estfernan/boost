@@ -103,6 +103,18 @@ Like BOOST-GP, SPARK (Spatial PAttern Recognition via Kernels) requires the expr
      result_SPARK <- SPARK(abs_expr, sample_info, size.factor = size_factor, gene.name = 'Doc2g')
      
      print(result_SPARK)
+     ## 
+     ## Call:
+     ## SPARK(abs.expr = abs_expr, spots = sample_info, size.factor = size_factor, 
+     ##     gene.name = "Doc2g")
+     ## 
+     ## Model: SPARK 
+     ## 
+     ## Summary:
+     ##     GSP1   COS1    GSP2 COS2 GSP3 COS3 GSP4    COS4 GSP5    COS5
+     ##  2.6e-09 0.0045 6.1e-05    1 0.12 0.24  0.6 3.9e-11 0.73 2.8e-11
+     ## 
+     ## p-value in favor of a spatially-variable pattern: <0.001
 
 
 The outputs include the p-values under different kernel function settings. Combined p-value is the criteria for determining whether a gene is SV gene or not. If the output combined p-value is less than 0.05, we infer that it is SV gene. In this example, the combined p-value is less than $0.001$, indicating strong evidence that gene 'Doc2g' is an SV gene. 
@@ -120,6 +132,17 @@ SpatialDE requires the normalized expression count for one gene and the location
    result_spatialde <- SpatialDE(norm_expr, sample_info, gene.name = 'Doc2g')
    
    print(result_spatialde)
+   ## 
+   ## Call:
+   ## SpatialDE(norm.expr = norm_expr, spots = sample_info, gene.name = "Doc2g")
+   ## 
+   ## Model: SpatialDE 
+   ## 
+   ## Summary:
+   ##      g   n  FSV   l BIC
+   ##  Doc2g 260 0.57 1.1 609
+   ## 
+   ## p-value in favor of a spatially-variable pattern: <0.001
 
 
 The outputs include the fraction of expression variance (FSV), characteristic length scale in the kernel function, and Bayesian information criterion. P-value is the criteria for determining whether a gene is SV gene or not. If the output p-value is less than 0.05, we infer that it is SV gene. In this example, the p-value is less than $0.001$, indicating strong evidence that gene 'Doc2g' is an SV gene. 
