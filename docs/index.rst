@@ -21,7 +21,7 @@ The R package boost (Bayesian Modeling of Spatial Transcriptomics Data) provides
    installation
    loaddata
    preprocessing
-   SV_gene_detection
+   sv_gene_detection
    simulation
 
 
