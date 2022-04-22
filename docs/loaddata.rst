@@ -11,11 +11,15 @@ Both data should be stored in R matrix format. For gene expression count matrix 
 In the following, we conduct the analysis on Mouse Olfactory Bulb data as an example to show the functions in boost package.
 
 Files are originally retrieved from the `STAR website <https://lce.biohpc.swmed.edu/smp_gym/explorer.php>`_ . 
+
+First, we load the packages needed for loading data.
 ::
         library(utils)
         library(stats)
         library(grDevices)
 
+We directly retrieve the data from the website. 
+::
         # Download data from SMP-Gym website
         url <- 'https://lce.biohpc.swmed.edu/smp_gym/download/st/mouse_olfactory_bulb_st/processed_data/mouse_olfactory_bulb_replicate_11.zip'
         download.file(url, destfile= "mob.zip", mode = "wb")
