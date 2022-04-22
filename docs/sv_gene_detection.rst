@@ -9,7 +9,7 @@ boost package includes the functions of five SV gene identification methods: BOO
 BOOST-GP
 ------------------------------------------
 
-BOOST-GP (Bayesian mOdeling Of Spatial Transcriptomics data via Gaussian Process) model requires the expression count for one gene (one column of the original count matrix $Y$) and the location information $T$ as inputs. The estimated size factor is also an input for it. 
+BOOST-GP (Bayesian mOdeling Of Spatial Transcriptomics data via Gaussian Process) model requires the expression count for one gene (one column of the original count matrix :math:`Y`) and the location information :math:`T` as inputs. The estimated size factor is also an input for it. 
 ::
     result_boost_gp <- BOOST.GP(abs_expr, sample_info, size.factor = size_factor, gene.name = 'Doc2g', n.iter = 3000)
     
@@ -67,7 +67,7 @@ BOOST-Ising requires the binarized expression level for one gene and the neighbo
     ## p-value: <0.001
 
 
-The outputs include the estimates of two parameters in BOOST-Ising model. Bayes factor is the criteria for determining whether a gene is SV gene or not. If the output Bayes factor is greater than 150, we infer that it is SV gene. In this example, Bayes factor is $1\times 10^{10}$, indicating strong evidence that gene 'Doc2g' is an SV gene. 
+The outputs include the estimates of two parameters in BOOST-Ising model. Bayes factor is the criteria for determining whether a gene is SV gene or not. If the output Bayes factor is greater than 150, we infer that it is SV gene. In this example, Bayes factor is :math:`1\times 10^{10}`, indicating strong evidence that gene 'Doc2g' is an SV gene. 
 
 BinSpect
 ----------------------------------
@@ -98,7 +98,7 @@ The outputs include the contingency table summarized from the neighbor pairing b
 SPARK
 ----------------------------
 
-Like BOOST-GP, SPARK (Spatial PAttern Recognition via Kernels) requires the expression count for one gene (one column of the original count matrix $Y$), the location information T, and the estimated size factor as inputs.
+Like BOOST-GP, SPARK (Spatial PAttern Recognition via Kernels) requires the expression count for one gene (one column of the original count matrix :math:`Y`), the location information T, and the estimated size factor as inputs.
 ::
      result_SPARK <- SPARK(abs_expr, sample_info, size.factor = size_factor, gene.name = 'Doc2g')
      
@@ -117,7 +117,7 @@ Like BOOST-GP, SPARK (Spatial PAttern Recognition via Kernels) requires the expr
      ## p-value in favor of a spatially-variable pattern: <0.001
 
 
-The outputs include the p-values under different kernel function settings. Combined p-value is the criteria for determining whether a gene is SV gene or not. If the output combined p-value is less than 0.05, we infer that it is SV gene. In this example, the combined p-value is less than $0.001$, indicating strong evidence that gene 'Doc2g' is an SV gene. 
+The outputs include the p-values under different kernel function settings. Combined p-value is the criteria for determining whether a gene is SV gene or not. If the output combined p-value is less than 0.05, we infer that it is SV gene. In this example, the combined p-value is less than 0.001, indicating strong evidence that gene 'Doc2g' is an SV gene. 
 
 SpatialDE
 
@@ -145,7 +145,7 @@ SpatialDE requires the normalized expression count for one gene and the location
    ## p-value in favor of a spatially-variable pattern: <0.001
 
 
-The outputs include the fraction of expression variance (FSV), characteristic length scale in the kernel function, and Bayesian information criterion. P-value is the criteria for determining whether a gene is SV gene or not. If the output p-value is less than 0.05, we infer that it is SV gene. In this example, the p-value is less than $0.001$, indicating strong evidence that gene 'Doc2g' is an SV gene. 
+The outputs include the fraction of expression variance (FSV), characteristic length scale in the kernel function, and Bayesian information criterion. P-value is the criteria for determining whether a gene is SV gene or not. If the output p-value is less than 0.05, we infer that it is SV gene. In this example, the p-value is less than 0.001, indicating strong evidence that gene 'Doc2g' is an SV gene. 
 
 
 Plot SV Gene
