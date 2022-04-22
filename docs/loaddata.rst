@@ -8,9 +8,9 @@ The current version of boost requires two input data:
 
 Both data should be stored in R matrix format. For gene expression count matrix :math:`Y`, column names should be gene names.
 
-In the following, we conduct the analysis on Mouse Olfactory Bulb data as an example to show the functions of boost package.
+In the following, we conduct the analysis on Mouse Olfactory Bulb data as an example to show the functions in boost package.
 
-Files originally retrieved from the `SMP-Gym website <https://lce.biohpc.swmed.edu/smp_gym/explorer.php>`_ . 
+Files are originally retrieved from the `SMP-Gym website <https://lce.biohpc.swmed.edu/smp_gym/explorer.php>`_ . 
 ::
         library(utils)
         library(stats)
