@@ -90,7 +90,7 @@ All methods in this package require the expression level of one gene as input. T
 Rank Aggregation
 ---------------------------------
 
-SMP-Gym provides the results for two rank aggregation methods: GEO and MC2. In boost package, we can conduct the rank aggregation via the function 'rank.aggregation'. This function aggregates rankings from $m$ base rankers to generate an aggregated ranking using GEO or MC2 method. Inputs are 1) data with the first column 'gene' records the gene names, 2) K - Sort out top-K genes in each base ranker; 3) method: 'GEO' or 'MC2'; 4) ties.method - a character string specifying how ties are treated.
+SMP-Gym provides the results for two rank aggregation methods: GEO and MC2. In boost package, we can conduct the rank aggregation via the function 'rank.aggregation'. This function aggregates rankings from :math:`m` base rankers to generate an aggregated ranking using GEO or MC2 method. Inputs are 1) data with the first column 'gene' records the gene names, 2) K - Sort out top-K genes in each base ranker; 3) method: 'GEO' or 'MC2'; 4) ties.method - a character string specifying how ties are treated.
 ::
     # create data frame for rank aggregation
     result_df <- data.frame(gene = colnames(count), BOOST_GP =rank(-result[, 'BOOST-GP'], ties.method = "random"))
@@ -121,20 +121,128 @@ Output is a table with genes and their rank. Gene 'V6' ranks first, which is a S
 Compute Performace Metrics
 --------------------------------
 
-SMP-Gym applies six metrics to comprehensively quantify the performance of SV gene identification for each method. In boost package, we can compute these metrics via the function 'compute.metrics'. Outputs include six performance measurements:
+SMP-Gym applies six metrics to comprehensively quantify the performance of SV gene identification for each method. 
 
 * Sensitivity: measure the proportion of correctly identified SV genes across all SV genes in the studied data replicate. Sensitivity ranges from 0 to 1, large sensitivity value corresponds to better classifier model performance. 
 * Specificity: measure the proportion of correctly identified non-SV genes across all non-SV genes in the studied data replicate. Specificity ranges from 0 to 1, large specificity value denotes high ability of model to correctly classify non-SV genes. 
 * F1-score: harmonic mean of the precision and recall, which simultaneously evaluates the ability of the model to detect true SV genes across all SV genes identified and all true SV genes in the dataset. F1-score ranges from 0 to 1 and higher value indicates better performance. 
 * False discovery rate (FDR): calculates the ratio of the number of SV genes detected incorrectly to the total number of SV genes detected, which ranges from 0 to 1. Lower FDR indicates better performance. 
 * AUC: Area under the receiver operating characteristic curve (ROC curve), which measures the model performance under all possible thresholds. AUC has range from 0 to 1. When AUC gets closer to 1, model has a better performance. 
-* Matthews Correlation Coefficient (MCC): a robust measure to evaluate model performance under imbalance issue, which incorporates all elements in the confusion matrix. MCC ranges from -1 to 1, and when MCC approaches to 1, model has perfect classification ability.   
+* Matthews Correlation Coefficient (MCC): a robust measure to evaluate model performance under imbalance issue, which incorporates all elements in the confusion matrix. MCC ranges from -1 to 1, and when MCC approaches to 1, model has perfect classification ability.
+
+In boost package, we can compute these metrics via the function 'compute.metrics'. Outputs include six performance measurements:
 ::
-     # Compute performance metrics for six methods
-     compute.metrics(result[, 'BOOST-GP'], ground_truth, predictor.type = 'BF', threshold = 150)
-     
-     compute.metrics(result[, 'BOOST-Ising'], ground_truth, predictor.type = 'BF', threshold = 150)
-     compute.metrics(p.adjust(result[, 'BinSpect-rank'], 'BH'), ground_truth, predictor.type = 'p-value', threshold = 0.05)
-     compute.metrics(p.adjust(result[, 'BinSpect-kmeans'], 'BH'), ground_truth, predictor.type = 'p-value', threshold = 0.05)
-     compute.metrics(p.adjust(result[, 'SPARK'], 'BH'), ground_truth, predictor.type = 'p-value', threshold = 0.05)
-     compute.metrics(p.adjust(result[, 'SpatialDE'], 'BH'), ground_truth, predictor.type = 'p-value', threshold = 0.05)
+    # Compute performance metrics for six methods
+    compute.metrics(result[, 'BOOST-GP'], ground_truth, predictor.type = 'BF', threshold = 150)
+    ## $Sensitivity
+    ## [1] 0
+    ## 
+    ## $Specificity
+    ## [1] 1
+    ## 
+    ## $F1_score
+    ## [1] 0
+    ## 
+    ## $FDR
+    ## [1] 0
+    ## 
+    ## $AUC
+    ## Area under the curve: 1
+    ## 
+    ## $MCC
+    ## [1] 0
+    
+    compute.metrics(result[, 'BOOST-Ising'], ground_truth, predictor.type = 'BF', threshold = 150)
+    ## $Sensitivity
+    ## [1] 1
+    ## 
+    ## $Specificity
+    ## [1] 1
+    ## 
+    ## $F1_score
+    ## [1] 1
+    ## 
+    ## $FDR
+    ## [1] 0
+    ## 
+    ## $AUC
+    ## Area under the curve: 1
+    ## 
+    ## $MCC
+    ## [1] 1
+    
+    compute.metrics(p.adjust(result[, 'BinSpect-rank'], 'BH'), ground_truth, predictor.type = 'p-value', threshold = 0.05)
+    ## $Sensitivity
+    ## [1] 1
+    ## 
+    ## $Specificity
+    ## [1] 0.8888889
+    ## 
+    ## $F1_score
+    ## [1] 0.6666667
+    ## 
+    ## $FDR
+    ## [1] 0.5
+    ## 
+    ## $AUC
+    ## Area under the curve: 1
+    ## 
+    ## $MCC
+    ## [1] 0.6666667
+    
+    compute.metrics(p.adjust(result[, 'BinSpect-kmeans'], 'BH'), ground_truth, predictor.type = 'p-value', threshold = 0.05)
+    ## $Sensitivity
+    ## [1] 1
+    ## 
+    ## $Specificity
+    ## [1] 1
+    ## 
+    ## $F1_score
+    ## [1] 1
+    ## 
+    ## $FDR
+    ## [1] 0
+    ## 
+    ## $AUC
+    ## Area under the curve: 1
+    ## 
+    ## $MCC
+    ## [1] 1
+    
+    compute.metrics(p.adjust(result[, 'SPARK'], 'BH'), ground_truth, predictor.type = 'p-value', threshold = 0.05)
+    ## $Sensitivity
+    ## [1] 1
+    ## 
+    ## $Specificity
+    ## [1] 0.8888889
+    ## 
+    ## $F1_score
+    ## [1] 0.6666667
+    ## 
+    ## $FDR
+    ## [1] 0.5
+    ## 
+    ## $AUC
+    ## Area under the curve: 1
+    ## 
+    ## $MCC
+    ## [1] 0.6666667
+    
+    compute.metrics(p.adjust(result[, 'SpatialDE'], 'BH'), ground_truth, predictor.type = 'p-value', threshold = 0.05)
+    ## $Sensitivity
+    ## [1] 1
+    ## 
+    ## $Specificity
+    ## [1] 1
+    ## 
+    ## $F1_score
+    ## [1] 1
+    ## 
+    ## $FDR
+    ## [1] 0
+    ## 
+    ## $AUC
+    ## Area under the curve: 1
+    ## 
+    ## $MCC
+    ## [1] 1
