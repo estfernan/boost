@@ -12,7 +12,7 @@ The R package boost (Bayesian Modeling of Spatial Transcriptomics Data) provides
 
 .. figure:: website.png
     :align: center
-    :figwidth: 2000px
+    :figwidth: 1000px
 
 .. toctree::
    :maxdepth: 2
