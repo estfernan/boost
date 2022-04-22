@@ -2,7 +2,7 @@
 Simulation Study - Example
 ======================================
 
-SMP-Gym website (https://lce.biohpc.swmed.edu/smp_gym) provides a comprehensive comparison of different SV gene identification methods on simulated data. Here we provide an example to demonstrate how to implement these methods on the simulated data. 
+STAR website (https://lce.biohpc.swmed.edu/smp_gym) provides a comprehensive comparison of different SV gene identification methods on simulated data. Here we provide an example to demonstrate how to implement these methods on the simulated data. 
 
 Load Data
 ------------------------
