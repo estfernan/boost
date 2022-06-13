@@ -2,14 +2,14 @@
 Simulation Study - Example
 ======================================
 
-STAR website (https://lce.biohpc.swmed.edu/smp_gym) provides a comprehensive comparison of different SV gene identification methods on simulated data. Here we provide an example to demonstrate how to implement these methods on the simulated data. 
+STAr website (https://lce.biohpc.swmed.edu/star) provides a comprehensive comparison of different SV gene identification methods on simulated data. Here we provide an example to demonstrate how to implement these methods on the simulated data. 
 
 Load Data
 ------------------------
 In this example, we choose the first replicate under the setting of linear pattern and no zero-inflation.
 ::
-    # download data from SMP-Gym website
-    url <- 'https://lce.biohpc.swmed.edu/smp_gym/download/simulated_data/linear_pattern/data/linear_pattern_zero_0_replicate_1.zip'
+    # download data from STAr website
+    url <- 'https://lce.biohpc.swmed.edu/star/download/simulated_data/linear_pattern/data/linear_pattern_zero_0_replicate_1.zip'
     download.file(url, destfile= "simulation_example.zip", mode = "wb")
     unzip("simulation_example.zip")
 
