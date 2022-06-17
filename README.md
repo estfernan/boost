@@ -7,7 +7,7 @@ The R package **boost** (Bayesian Modeling of Spatial Transcriptomics Data)
 provides functions to detect spatially variable (SV) genes in 
 spatial transcriptomics (ST) data. This package provides two novel Bayesian 
 methods, as well as other standard procedures, for facilitating studies in 
-spatial molecular profiling (SMP).
+spatial molecular profiling (SMP). For the step-by-step tutorial of **boost**, please refer to https://boost-r.readthedocs.io/en/latest/
 
 ## Development
 
