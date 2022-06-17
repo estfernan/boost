@@ -8,7 +8,7 @@ The current version of boost requires two input data:
 
 Both data should be stored in R matrix format. For gene expression count matrix :math:`Y`, column names should be gene names.
 
-In the following, we conduct the analysis on Mouse Olfactory Bulb data as an example to show the functions in boost package.
+In the following, we conduct the analysis on Mouse Olfactory Bulb data (replicate 11) as an example to show the functions in boost package.
 
 Files are originally retrieved from the `STAr website <https://lce.biohpc.swmed.edu/star/>`_ . 
 
@@ -40,7 +40,7 @@ We directly retrieve the data from the website.
         print(dim(sample_info))
         ## [1] 262   2
         
-The Mouse Olfactory Bulb data has 262 sample points and 16218 genes. The 'sample_info' table records the x and y coordinates of all sample points. 
+The Mouse Olfactory Bulb data (replicate 11) has 262 sample points and 16218 genes. The 'sample_info' table records the x and y coordinates of all sample points. 
 ::
         print(count[1:10, 1:10])
         ##       Nrf1 Zbtb5 Ccnl1 Lrrfip1 Bbs1 Lix1 Whrn Ate1 Ubac1 Rab34
