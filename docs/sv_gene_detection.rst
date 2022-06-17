@@ -1,7 +1,7 @@
 SV Gene Detection
 ===============================
 
-boost package includes the functions of five SV gene identification methods: BOOST-GP, BOOST-Ising, SPARK, BinSpect and SpatialDE. The expression (count or normalized level) for one gene, and other information, are the inputs for these functions. We choose gene 'Doc2g' and show the SV gene detection process on it. 
+boost package includes the functions of five SV gene identification methods: BOOST-GP, BOOST-MI, SPARK, BinSpect and SpatialDE. The expressions (counts or normalized levels) for one gene, and other information, are the inputs for these functions. We choose gene 'Doc2g' in Mouse Olfactory Bulb data (replicate 11) and show the SV gene detection process on it. 
 ::
     abs_expr <- count[, 'Doc2g']
 
@@ -9,7 +9,7 @@ boost package includes the functions of five SV gene identification methods: BOO
 BOOST-GP
 ------------------------------------------
 
-BOOST-GP (Bayesian mOdeling Of Spatial Transcriptomics data via Gaussian Process) model requires the expression count for one gene (one column of the original count matrix :math:`Y`) and the location information :math:`T` as inputs. The estimated size factor is also an input for it. 
+BOOST-GP (Bayesian mOdeling Of Spatial Transcriptomics data via Gaussian Process) model requires the expression counts for one gene (one column of the original count matrix :math:`Y`) and the location information :math:`T` as inputs. The estimated size factor is also an input for it. 
 ::
     result_boost_gp <- BOOST.GP(abs_expr, sample_info, size.factor = size_factor, gene.name = 'Doc2g', n.iter = 3000)
     
@@ -30,20 +30,20 @@ BOOST-GP (Bayesian mOdeling Of Spatial Transcriptomics data via Gaussian Process
     ## Bayes Factor in favor of a spatially variable gene: 1.9e+11
     ## p-value: 0
 
-The outputs include the estimates of dispersion and kernel scale parameters in BOOST-GP model and also the mean normalized gene expression levels across spots. Bayes factor is the criteria for determining whether a gene is SV gene or not. If the output Bayes factor is greater than 150, we infer that it is SV gene. In this example, Bayes factor is extremely large, indicating strong evidence that gene 'Doc2g' is an SV gene.
+The outputs include the estimates of dispersion and kernel scale parameters in BOOST-GP model and also the mean normalized gene expression levels across spots. Bayes factor is the criteria for determining whether a gene is SV gene or not. If the output Bayes factor is greater than 150, we infer that this gene is an SV gene. In this example, Bayes factor is extremely large, indicating strong evidence that gene 'Doc2g' is an SV gene.
 
 BOOST-Ising
 ------------------------------------
 
-Before applying BOOST-Ising (Bayesian mOdeling Of Spatial Transcriptomics data via a modified Ising model) method, several data pre-processing steps are required. Frist, we need to binarize the normalized expression level using binarize.st function.
+Before applying BOOST-MI (Bayesian mOdeling Of Spatial Transcriptomics data via a modified Ising model, also called BOOST-Ising) method, several data pre-processing steps are required. Frist, we need to binarize the normalized expression level using binarize.st function.
 ::
     binary_expr <- binarize.st(normalized_count, 'Doc2g', cluster.method =  "GMC")
 
-Instead of sample_info matrix, BOOST-Ising method requires the neighbor information of sample points. We apply get.neighbors function to generate the neighbor information. Sample points for this data are located on a square lattice, so each spots has 4 neighbors. 
+Instead of sample_info matrix, BOOST-MI method requires the neighbor information of sample points. We apply get.neighbors function to generate the neighbor information. Sample points for this data are located on a square lattice, so each spots has at most 4 neighbors. 
 ::
     neighbor_info <- get.neighbors(sample_info, n.neighbors = 4, method = "distance")
 
-BOOST-Ising requires the binarized expression level for one gene and the neighbor information as inputs. 
+BOOST-MI requires the binarized expression levels for one gene and the neighbor information as inputs. 
 ::
     result_boost_ising <- BOOST.Ising(binary_expr, neighbor_info, gene.name = 'Doc2g')
 
@@ -67,11 +67,11 @@ BOOST-Ising requires the binarized expression level for one gene and the neighbo
     ## p-value: <0.001
 
 
-The outputs include the estimates of two parameters in BOOST-Ising model. Bayes factor is the criteria for determining whether a gene is SV gene or not. If the output Bayes factor is greater than 150, we infer that it is SV gene. In this example, Bayes factor is :math:`1\times 10^{10}`, indicating strong evidence that gene 'Doc2g' is an SV gene. 
+The outputs include the estimates of two parameters in BOOST-MI model. Bayes factor is the criteria for determining whether a gene is an SV gene or not. If the output Bayes factor is greater than 150, we infer that the input gene is an SV gene. In this example, Bayes factor is :math:`1\times 10^{10}`, indicating strong evidence that gene 'Doc2g' is an SV gene. 
 
 BinSpect
 ----------------------------------
-Same data pre-processing steps are required for BinSpect (Binary Spatial Extraction of genes from Giotto), including binarization and generating neighbor information. Like BOOST-Ising, Binspect requires the binarized expression level for one gene and the neighbor information as inputs. 
+Same data pre-processing steps are required for BinSpect (Binary Spatial Extraction of genes from Giotto), including binarization and generating neighbor information. Like BOOST-MI, Binspect requires the binarized expression level for one gene and the neighbor information as inputs. 
 ::
     result_binspect <- binSpect(binary_expr, neighbor_info, do.fisher.test = FALSE, gene.name = 'Doc2g')
 
@@ -92,13 +92,13 @@ Same data pre-processing steps are required for BinSpect (Binary Spatial Extract
     ## p-value in favor of a spatially-variable pattern: <0.001
 
 
-The outputs include the contingency table summarized from the neighbor pairing binarized expresssion. P-value is the criteria for determining whether a gene is SV gene or not. If the output p-value is less than 0.05, we infer that it is SV gene. In this example, p-value is less than $0.001$, indicating strong evidence that gene 'Doc2g' is an SV gene. 
+The outputs include the contingency table summarized from the neighbor pairing binarized expresssion. P-value is the criteria for determining whether a gene is an SV gene or not. If the output p-value is less than 0.05, we infer that it is an SV gene. In this example, p-value is less than $0.001$, indicating strong evidence that gene 'Doc2g' is an SV gene. 
 
 
 SPARK
 ----------------------------
 
-Like BOOST-GP, SPARK (Spatial PAttern Recognition via Kernels) requires the expression count for one gene (one column of the original count matrix :math:`Y`), the location information T, and the estimated size factor as inputs.
+Like BOOST-GP, SPARK (Spatial PAttern Recognition via Kernels) requires the expression counts for one gene (one column of the original count matrix :math:`Y`), the location information :math:`T`, and the estimated size factor as inputs.
 ::
      result_SPARK <- SPARK(abs_expr, sample_info, size.factor = size_factor, gene.name = 'Doc2g')
      
@@ -117,17 +117,17 @@ Like BOOST-GP, SPARK (Spatial PAttern Recognition via Kernels) requires the expr
      ## p-value in favor of a spatially-variable pattern: <0.001
 
 
-The outputs include the p-values under different kernel function settings. Combined p-value is the criteria for determining whether a gene is SV gene or not. If the output combined p-value is less than 0.05, we infer that it is SV gene. In this example, the combined p-value is less than 0.001, indicating strong evidence that gene 'Doc2g' is an SV gene. 
+The outputs include the p-values under different kernel function settings. Combined p-value is the criteria for determining whether a gene is an SV gene or not. If the output combined p-value is less than 0.05, we infer that it is an SV gene. In this example, the combined p-value is less than 0.001, indicating strong evidence that gene 'Doc2g' is an SV gene. 
 
 SpatialDE
 
-SpatialDE method assumes the expression data are normally distributed. Instead of TSS normalization method, we need to use log-VST to normalize the data. This normalization method includes stabilizing the variance of counts data and regressing out the effect of library size.
+SpatialDE method assumes the expression data are normally distributed. So instead of TSS normalization method, we need to use log-VST choice to normalize the data. This normalization method includes stabilizing the variance of counts data and regressing out the effect of library size.
 ::
     normalized_count_log_vst <- normalize.st(count, scaling.method = "log-VST")
 
     norm_expr <- normalized_count_log_vst[, 'Doc2g']
 
-SpatialDE requires the normalized expression count for one gene and the location information $T$ as inputs.
+SpatialDE requires the normalized expression counts for one gene and the location information :math:`T` as inputs.
 ::
    result_spatialde <- SpatialDE(norm_expr, sample_info, gene.name = 'Doc2g')
    
@@ -145,13 +145,13 @@ SpatialDE requires the normalized expression count for one gene and the location
    ## p-value in favor of a spatially-variable pattern: <0.001
 
 
-The outputs include the fraction of expression variance (FSV), characteristic length scale in the kernel function, and Bayesian information criterion. P-value is the criteria for determining whether a gene is SV gene or not. If the output p-value is less than 0.05, we infer that it is SV gene. In this example, the p-value is less than 0.001, indicating strong evidence that gene 'Doc2g' is an SV gene. 
+The outputs include the fraction of expression variance (FSV), characteristic length scale in the kernel function, and Bayesian information criterion (BIC). P-value is the criteria for determining whether a gene is an SV gene or not. If the output p-value is less than 0.05, we infer that it is an SV gene. In this example, the p-value is less than 0.001, indicating strong evidence that gene 'Doc2g' is an SV gene. 
 
 
 Plot SV Gene
 ------------------------
 
-Using plot.st, we can visualize the expression pattern for genes. In plot.st function, absolute count, normalized or binarized expression level, combined with the location information, are the inputs. If the input is binarized expression level, set parameter binary to TRUE. 
+Using plot.st, we can visualize the expression pattern for genes. In plot.st function, absolute counts, normalized or binarized expression levels, combined with the location information, are the inputs. If the input is binarized expression levels, set parameter binary to be TRUE. 
 ::
     st.plot(norm_expr, sample_info, gene.name = 'Doc2g', binary = FALSE, log.expr = FALSE)
     
