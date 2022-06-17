@@ -6,7 +6,7 @@
 boost R Package
 ==========================
 
-Authors: Xi Jiang, Esteban Fernández and Qiwei Li
+Authors: Xi Jiang, Danni Luo, Esteban F. Morales, Jie Yang, Huimin Li, Yuanchun Zhan, Bo Yao, Suhana Bedi, Qiwei Li, Guanghua Xiao and Xiaowei Zhan
 
 The R package boost (Bayesian Modeling of Spatial Transcriptomics Data) provides a collection of functions to detect spatially variable (SV) genes in spatial transcriptomics (ST) data. This package provides two novel Bayesian methods, as well as other standard procedures, for facilitating studies in `Spatial Transcriptomics Arena (STAr) <https://lce.biohpc.swmed.edu/star/>`_ .
 
