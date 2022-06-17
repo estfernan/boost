@@ -6,7 +6,7 @@ STAr website (https://lce.biohpc.swmed.edu/star) provides a comprehensive compar
 
 Load Data
 ------------------------
-In this example, we choose the first replicate under the setting of linear pattern and no zero-inflation.
+In this example, we choose the first replicate of simulated data under the setting of linear pattern and no zero-inflation.
 ::
     # download data from STAr website
     url <- 'https://lce.biohpc.swmed.edu/star/download/simulated_data/linear_pattern/data/linear_pattern_zero_0_replicate_1.zip'
@@ -26,7 +26,7 @@ In this example, we choose the first replicate under the setting of linear patte
 Data Preparation
 ------------------------
 
-Same as the data pre-processing step in real data example, we need to estimate the size factor for BOOST-GP and SPARK and get normalized expression counts for SpatialDE, BOOST-Ising and BinSpect. 
+Same as the data pre-processing step in the real data example, we need to estimate the size factor for BOOST-GP and SPARK and get normalized expression counts for SpatialDE, BOOST-MI and BinSpect. 
 ::
     # size factor estimation
     size_factor <- get.size.factor(count, estimation.method = "TSS")
@@ -42,7 +42,7 @@ Same as the data pre-processing step in real data example, we need to estimate t
 
 Run SV Gene Detection Methods
 --------------------------------------
-All methods in this package require the expression level of one gene as input. To implement the SV gene identification for the whole dataset, we need to run these functions gene by gene. We can simply use 'for' loop to implement it. 
+All methods in this package require the expression levels of one gene as input. To implement the SV gene identification for the whole dataset, we need to run these functions gene by gene. We can simply use 'for' loop to implement it. 
 ::
     n_gene <- dim(count)[2]
 
@@ -90,7 +90,7 @@ All methods in this package require the expression level of one gene as input. T
 Rank Aggregation
 ---------------------------------
 
-SMP-Gym provides the results for two rank aggregation methods: GEO and MC2. In boost package, we can conduct the rank aggregation via the function 'rank.aggregation'. This function aggregates rankings from :math:`m` base rankers to generate an aggregated ranking using GEO or MC2 method. Inputs are 1) data with the first column 'gene' records the gene names, 2) K - Sort out top-K genes in each base ranker; 3) method: 'GEO' or 'MC2'; 4) ties.method - a character string specifying how ties are treated.
+STAr provides the results from two rank aggregation methods: GEO and MC2. In boost package, we can conduct the rank aggregation via the function 'rank.aggregation'. This function aggregates rankings from :math:`m` base rankers to generate an aggregated ranking using GEO or MC2 method. Inputs are 1) data with the first column 'gene' records the gene names, 2) K - Sort out top-K genes in each base ranker; 3) method: 'GEO' or 'MC2'; 4) ties.method - a character string specifying how ties are treated.
 ::
     # create data frame for rank aggregation
     result_df <- data.frame(gene = colnames(count), BOOST_GP =rank(-result[, 'BOOST-GP'], ties.method = "random"))
@@ -116,12 +116,12 @@ SMP-Gym provides the results for two rank aggregation methods: GEO and MC2. In b
     ## 8    V8    9
     ## 7    V7   10
 
-Output is a table with genes and their rank. Gene 'V6' ranks first, which is a SV gene we generate in this simulated data. 
+Output is a table with genes and their rank. Gene 'V6' ranks first, which is an SV gene we generate in this simulated data. 
 
 Compute Performace Metrics
 --------------------------------
 
-SMP-Gym applies six metrics to comprehensively quantify the performance of SV gene identification for each method. 
+STAr applies six metrics to comprehensively quantify the performance of SV gene identification for each method. 
 
 * Sensitivity: measure the proportion of correctly identified SV genes across all SV genes in the studied data replicate. Sensitivity ranges from 0 to 1, large sensitivity value corresponds to better classifier model performance. 
 * Specificity: measure the proportion of correctly identified non-SV genes across all non-SV genes in the studied data replicate. Specificity ranges from 0 to 1, large specificity value denotes high ability of model to correctly classify non-SV genes. 
