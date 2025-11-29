@@ -80,11 +80,6 @@ normalize.st <- function(
     ## TSS(Total Sum Scaling)
     ##
 
-    ### scale-factors
-    raw_s_factors <- N
-    scale_coeff <- exp((-1/nrow(count)) * sum(log(raw_s_factors)))
-    scaled_s_factors <- scale_coeff * raw_s_factors
-
     ### normalized count matrix
     db.norm <- sweep(count, 1, N, FUN = "/")
     count_nor <- db.norm
