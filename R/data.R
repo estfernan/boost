@@ -35,9 +35,9 @@
 ##'
 ##' @references
 ##'
-##' Li, Q., M. Zhang, Y. Xie, and G. Xiao (2020). Bayesian modeling of
+##' Li, Q., M. Zhang, Y. Xie, and G. Xiao (2021). Bayesian modeling of
 ##' spatial molecular profiling data via Gaussian process.
-##' *arXiv preprint arXiv:2012.03326*.
+##' *Bioinformatics 37* (22), 4129–4136.
 ##'
 ##' Sun, S., J. Zhu, and X. Zhou (2020). Statistical analysis of spatial
 ##' expression patterns for spatially resolved transcriptomic studies.
@@ -76,9 +76,9 @@ NULL
 ##'
 ##' @references
 ##'
-##' Li, Q., M. Zhang, Y. Xie, and G. Xiao (2020). Bayesian modeling of
+##' Li, Q., M. Zhang, Y. Xie, and G. Xiao (2021). Bayesian modeling of
 ##' spatial molecular profiling data via Gaussian process.
-##' *arXiv preprint arXiv:2012.03326*.
+##' *Bioinformatics 37* (22), 4129–4136.
 ##'
 ##' Sun, S., J. Zhu, and X. Zhou (2020). Statistical analysis of spatial
 ##' expression patterns for spatially resolved transcriptomic studies.

@@ -69,9 +69,9 @@
 ##' \item{measures}{the estimated Bayes factor and corresponding \eqn{p}-value}
 ##' \item{time}{the execution time of the function.}
 ##'
-##' @references Li, Q., Zhang M., Xie Y., & Xiao, G. (2020). Bayesian Modeling
-##' of Spatial Molecular Profiling Data via Gaussian Process.
-##' *arXiv preprint arXiv:2012.03326*.
+##' @references Li, Q., Zhang, M., Xie, Y., & Xiao, G. (2021). Bayesian
+##' modeling of spatial molecular profiling data via Gaussian process.
+##' *Bioinformatics*, 37(22), 4129-4136.
 ##'
 ##' @example inst/examples/ex_GP.R
 ##'

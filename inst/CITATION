@@ -1,23 +1,60 @@
-citHeader("To cite boost in publications use:")
+citHeader("To cite boost in publications, please use:")
 
-year    = sub('.*(2[[:digit:]]{3})-.*', '\\1', Sys.Date(), perl = TRUE)
-version = paste('R package version', meta$Version)
+year    <- sub("-.*", "", meta$Date)
+if (is.null(meta$Date) || !nzchar(year)) year <- format(Sys.Date(), "%Y")
+version <- paste("R package version", meta$Version)
 
-citEntry(
-  entry = 'Manual',
-  title = paste('boost:', meta$Title),
-  author = c(
-    'Esteban Fernández',
-    'Xi Jiang',
-    'Suhana Bedi',
-    'Qiwei Li'
-  ),
-  year = year,
-  note = version,
-  url = meta$URL,
+bibentry(
+  bibtype = "Article",
+  title   = paste("Spatial Transcriptomics Arena: An Integrated Platform for",
+                  "Methodology Research with a Focus on Spatially Variable",
+                  "Gene Detection"),
+  author  = c(person("Xi", "Jiang"), person("Danni", "Luo"),
+              person("Huimin", "Li"), person("Esteban", "Fernández"),
+              person("Kevin", "Lutz"), person("Suhana", "Bedi"),
+              person("Jie", "Yang"), person("Yuanchun", "Zhan"),
+              person("Bo", "Yao"), person("Guanghua", "Xiao"),
+              person("Yang", "Xie"), person("Qiwei", "Li"),
+              person("Xiaowei", "Zhan")),
+  journal = "Manuscript under revision",
+  year    = "2026",
   textVersion = paste(
-    'Esteban Fernández, Xi Jiang, Suhana Bedi, and Qiwei Li (', year, '). ',
-    'boost: ', meta$Title, '. ', version, '.',
-    sep = ''
+    "Jiang X, Luo D, Li H, Fernández E, Lutz K, Bedi S, Yang J, Zhan Y, Yao B,",
+    "Xiao G, Xie Y, Li Q, Zhan X. Spatial Transcriptomics Arena: An Integrated",
+    "Platform for Methodology Research with a Focus on Spatially Variable Gene",
+    "Detection. Manuscript under revision (2026)."
   )
+)
+
+bibentry(
+  bibtype = "Manual",
+  title   = paste("boost:", meta$Title),
+  author  = c(person("Esteban", "Fernández"), person("Xi", "Jiang"),
+              person("Suhana", "Bedi"), person("Qiwei", "Li")),
+  year    = year,
+  note    = version,
+  url     = "https://github.com/estfernan/boost",
+  textVersion = paste0(
+    "Fernández E, Jiang X, Bedi S, Li Q (", year, "). boost: ", meta$Title,
+    ". ", version, ". https://github.com/estfernan/boost"
+  )
+)
+
+bibentry(
+  bibtype = "Article",
+  title   = "Bayesian modeling of spatial molecular profiling data via Gaussian process",
+  author  = c(person("Qiwei", "Li"), person("Minzhe", "Zhang"),
+              person("Yang", "Xie"), person("Guanghua", "Xiao")),
+  journal = "Bioinformatics", year = "2021", volume = "37", number = "22",
+  pages   = "4129--4136", doi = "10.1093/bioinformatics/btab455"
+)
+
+bibentry(
+  bibtype = "Article",
+  title   = paste("A Bayesian modified Ising model for identifying spatially",
+                  "variable genes from spatial transcriptomics data"),
+  author  = c(person("Xi", "Jiang"), person("Guanghua", "Xiao"),
+              person("Qiwei", "Li")),
+  journal = "Statistics in Medicine", year = "2022", volume = "41",
+  number  = "23", pages = "4647--4665", doi = "10.1002/sim.9530"
 )

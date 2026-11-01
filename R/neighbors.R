@@ -47,9 +47,9 @@
 ##'   spot does not have full connectivity, then the latest entry or entries
 ##'   are zero.
 ##'
-##' @references Jiang, X., Li, Q., & Xiao, G. (2021). Bayesian Modeling of
-##'   Spatial Transcriptomics Data via a Modified Ising Model.
-##'   *arXiv preprint arXiv:2104.13957*.
+##' @references Jiang, X., Xiao, G., & Li, Q. (2022). A Bayesian modified Ising
+##'   model for identifying spatially variable genes from spatial transcriptomics
+##'   data. *Statistics in Medicine*, 41(23), 4647-4665.
 ##'
 ##' @seealso
 ##' [st.plot()] for plotting the expression levels and, hence, the lattice grid.

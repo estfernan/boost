@@ -1,3 +1,5 @@
+\dontrun{
+## SpatialDE runs Python through the Bioconductor package spatialDE
 library(boost)
 
 ## load sample dataset
@@ -10,3 +12,4 @@ g     <- mob.t[, "Apoe"]
 ## run the statistical test
 res <- SpatialDE(g, mob.spots, gene.name = "Apoe")
 print(res)
+}

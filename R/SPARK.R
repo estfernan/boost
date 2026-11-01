@@ -94,6 +94,14 @@ SPARK <- function(abs.expr, spots, size.factor, gene.name = NULL)
   rownames(count_spark) <- gene.name
   stt <- Sys.time()
 
+  ## SPARK calls doParallel::registerDoParallel() internally. On Windows,
+  ## each call starts a new socket cluster that SPARK never stops, which leaves
+  ## connections open. When the function exits, stop the implicit cluster,
+  ## close any socket connections opened during the call, and restore
+  ## sequential execution.
+  conns.before <- as.integer(rownames(showConnections(all = TRUE)))
+  on.exit(.close_new_sockets(conns.before), add = TRUE)
+
   spark <- SPARK::CreateSPARKObject(counts = count_spark,
                                     location = loc_spark,
                                     percentage = 0,
@@ -175,4 +183,21 @@ print.SPARK <- function(x, ...)
 
   cat("\n")
   invisible(x)
+}
+
+.close_new_sockets <- function(conns.before)
+{
+  try(doParallel::stopImplicitCluster(), silent = TRUE)
+  foreach::registerDoSEQ()
+
+  conns <- showConnections(all = TRUE)
+  new   <- setdiff(as.integer(rownames(conns)), conns.before)
+  for (i in new)
+  {
+    if (identical(conns[as.character(i), "class"], "sockconn"))
+    {
+      try(close(getConnection(i)), silent = TRUE)
+    }
+  }
+  invisible(NULL)
 }
