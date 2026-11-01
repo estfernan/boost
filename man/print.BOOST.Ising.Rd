@@ -17,7 +17,8 @@ No return value, called for side effects i.e. printing to console.
 \description{
 S3 class method printing MCMC results from BOOST-Ising fitted model. The
 console displays the function call, model type, parameter estimates, and
-Bayes Factor (BF) measurement for testing an attraction pattern in the gene.
+Bayes Factor (BF) measurements for testing attraction and repulsion
+patterns in the gene.
 }
 \examples{
 ## Need to implement the example for the procedure.

@@ -40,8 +40,8 @@ See Jiang et al. (2021) for more information and references on
 these options.
 }
 \references{
-Jiang, X., Li, Q., & Xiao, G. (2021). Bayesian Modeling of
-Spatial Transcriptomics Data via a Modified Ising Model.
-\emph{arXiv preprint arXiv:2104.13957}.
+Jiang, X., Xiao, G., & Li, Q. (2022). A Bayesian modified Ising
+model for identifying spatially variable genes from spatial transcriptomics
+data. \emph{Statistics in Medicine}, 41(23), 4647-4665.
 }
 \keyword{preprocessing}

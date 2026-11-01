@@ -1,7 +1,7 @@
 Package: boost
 Title: Bayesian Modeling of Spatial Transcriptomics Data
-Version: 0.2.0
-Authors@R: 
+Version: 0.4.0
+Authors@R:
     c(person(given   = "Esteban",
              family  = "Fernández",
              role    = c("aut", "cre"),
@@ -19,40 +19,55 @@ Authors@R:
              family  = "Li",
              role    = "ctb",
              email   = "qiwei.li@utdallas.edu"))
-Description: Detect spatially variable (SV) genes in spatial transcriptomics 
-  (ST) data using the models proposed in Jiang et al. (2021) <arXiv:2104.13957>
-  and Li et al. (2020) <arXiv:2012.03326>, as well as other standard procedures.
-  The package implements the BOOST-Ising and BOOST-GP models, other standard 
-  statistical techniques, data preprocessing techniques, and other 
-  miscellaneous diagnostic tools. Model parameters can be tuned automatically 
-  for the MCMC procedure. Methods like plot() and print() are available for 
-  convinience. This package utilizes the Armadillo C++ library for 
-  linear algebra & scientific computing <http://arma.sourceforge.net/>.
-LinkingTo: 
+Description: Detect spatially variable genes (SVGs) in spatial transcriptomics
+  data, as used in the Spatial Transcriptomics Arena (STAr) platform. The
+  package implements BOOST-GP (Li et al., 2021) <doi:10.1093/bioinformatics/btab455>
+  and BOOST-MI, the modified Ising model (Jiang et al., 2022) <doi:10.1002/sim.9530>,
+  together with SPARK, SpatialDE, and BinSpect, and provides wrappers that call
+  the original software for nnSVG, SPARK-X, MERINGUE, Trendsceek, Seurat
+  Moran's I, SOMDE, and SpaGCN. GEO and MC2 are provided for rank aggregation.
+  The package also includes data filtering, normalization, binarization,
+  neighbor construction, visualization, and performance metrics for SVG
+  benchmarking. Methods like plot() and print() are available for
+  convenience. This package utilizes the Armadillo C++ library for linear
+  algebra and scientific computing <https://arma.sourceforge.net/>.
+LinkingTo:
     RcppArmadillo,
     Rcpp,
     RcppDist
-Imports: 
+Imports:
     mclust,
     dbscan,
     Rcpp,
-    RcppDist,
     stats,
     ggplot2,
     utils,
     SPARK,
     spatialDE,
     pROC,
-    TopKLists
+    TopKLists,
+    Matrix,
+    doParallel,
+    foreach
+Suggests:
+    nnSVG,
+    SpatialExperiment,
+    SummarizedExperiment,
+    scuttle,
+    MERINGUE,
+    trendsceek,
+    spatstat,
+    Seurat,
+    reticulate
 Remotes:
-  bioc::release/spatialDE,
+  bioc::spatialDE,
   github::xzhoulab/SPARK
 Depends:
   R (>= 3.5.0)
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/estfernan/boost
+URL: https://github.com/estfernan/boost, https://boost-r.readthedocs.io/en/latest/
 BugReports: https://github.com/estfernan/boost/issues
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.1

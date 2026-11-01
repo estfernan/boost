@@ -46,7 +46,8 @@
 ##'   normally-distributed interaction parameter. The default is a mean of 0.
 ##' @param sigma.theta A numeric value that denotes the prior standard deviation of
 ##'   the normally-distributed interaction parameter. The default is a
-##'   standard deviation of 1.
+##'   standard deviation of 1/3, as suggested in Jiang et al. (2022) and used
+##'   in STAr (Supplementary Notes S1).
 ##' @param n.iter An integer value to specify the number of iterations for the
 ##'   DMH algorithm. The default is 10,000 iterations.
 ##' @param burn.prop A numeric value to specify the proportion of iterations to
@@ -63,12 +64,16 @@
 ##' \item{model}{the name of statistical model or technique.}
 ##' \item{gene.name}{the name of gene evaluated.}
 ##' \item{summary}{a summary table that contains a summary of the estimated parameters.}
-##' \item{measures}{the estimated Bayes factors and corresponding \eqn{p}-values.}
+##' \item{measures}{the estimated Bayes factors and corresponding posterior
+##'   tail probabilities: `BF.neg` (attraction pattern, interaction < 0),
+##'   `BF.pos` (repulsion pattern, interaction > 0), and `BF.max`, the larger
+##'   of the two, which is the Bayes factor reported for real datasets in STAr.}
 ##' \item{time}{the execution time of the function.}
 ##'
-##' @references Jiang, X., Li, Q., & Xiao, G. (2021). Bayesian Modeling of
-##' Spatial Transcriptomics Data via a Modified Ising Model.
-##' *arXiv preprint arXiv:2104.13957*.
+##' @references Jiang, X., Xiao, G., & Li, Q. (2022). A Bayesian modified
+##' Ising model for identifying spatially variable genes from spatial
+##' transcriptomics data. *Statistics in Medicine*, 41(23), 4647-4665.
+##' <https://doi.org/10.1002/sim.9530>.
 ##'
 ##' @example inst/examples/ex_Ising.R
 ##'
@@ -86,7 +91,7 @@ BOOST.Ising <- function(
   bin.expr, neighbor.info,
   gene.name = NULL,
   mean.omega0 = 1, sigma.omega0 = 2.5,
-  mean.theta = 0, sigma.theta = 1,
+  mean.theta = 0, sigma.theta = 1/3,
   n.iter = 1e4, burn.prop = 0.50
 )
 {
@@ -175,8 +180,10 @@ BOOST.Ising <- function(
       gene.name     = gene.name,
       summary       = est,
       measures      = list(
-        BF.neg   = (1 - pval.neg) / (pval.neg + 1e-10),  # repulsion
-        BF.pos   = (1 - pval.pos) / (pval.pos + 1e-10),  # attractions
+        BF.neg   = (1 - pval.neg) / (pval.neg + 1e-10),  # attraction (theta < 0)
+        BF.pos   = (1 - pval.pos) / (pval.pos + 1e-10),  # repulsion (theta > 0)
+        BF.max   = max((1 - pval.neg) / (pval.neg + 1e-10),
+                       (1 - pval.pos) / (pval.pos + 1e-10)),
         pval.neg = pval.neg, pval.pos = pval.pos
       ),
       time          = MCMC$time
@@ -189,7 +196,8 @@ BOOST.Ising <- function(
 ##'
 ##' S3 class method printing MCMC results from BOOST-Ising fitted model. The
 ##' console displays the function call, model type, parameter estimates, and
-##' Bayes Factor (BF) measurement for testing an attraction pattern in the gene.
+##' Bayes Factor (BF) measurements for testing attraction and repulsion
+##' patterns in the gene.
 ##'
 ##' @param x An object of class `BOOST.Ising`.
 ##' @param ... Additional arguments passed to [base::print()].
@@ -220,10 +228,10 @@ print.BOOST.Ising <- function(x, ...)
       print(summary, digits = 2, ...)
 
       cat("\nBayes Factor in favor of an attraction pattern: ")
-      dput(measures$BF.neg)
+      dput(signif(measures$BF.neg, 3))
 
-      cat("p-value: ")
-      cat(pval.format(measures$pval.neg))
+      cat("Bayes Factor in favor of a repulsion pattern: ")
+      dput(signif(measures$BF.pos, 3))
     }
   )
 

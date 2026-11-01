@@ -11,7 +11,7 @@ BOOST.Ising(
   mean.omega0 = 1,
   sigma.omega0 = 2.5,
   mean.theta = 0,
-  sigma.theta = 1,
+  sigma.theta = 1/3,
   n.iter = 10000,
   burn.prop = 0.5
 )
@@ -42,7 +42,8 @@ normally-distributed interaction parameter. The default is a mean of 0.}
 
 \item{sigma.theta}{A numeric value that denotes the prior standard deviation of
 the normally-distributed interaction parameter. The default is a
-standard deviation of 1.}
+standard deviation of 1/3, as suggested in Jiang et al. (2022) and used
+in STAr (Supplementary Notes S1).}
 
 \item{n.iter}{An integer value to specify the number of iterations for the
 DMH algorithm. The default is 10,000 iterations.}
@@ -62,7 +63,10 @@ An object of class "\code{BOOST.Ising}" is a list containing the following compo
 \item{model}{the name of statistical model or technique.}
 \item{gene.name}{the name of gene evaluated.}
 \item{summary}{a summary table that contains a summary of the estimated parameters.}
-\item{measures}{the estimated Bayes factors and corresponding \eqn{p}-values.}
+\item{measures}{the estimated Bayes factors and corresponding posterior
+tail probabilities: \code{BF.neg} (attraction pattern, interaction < 0),
+\code{BF.pos} (repulsion pattern, interaction > 0), and \code{BF.max}, the larger
+of the two, which is the Bayes factor reported for real datasets in STAr.}
 \item{time}{the execution time of the function.}
 }
 \description{
@@ -94,9 +98,10 @@ print(res)
 }
 }
 \references{
-Jiang, X., Li, Q., & Xiao, G. (2021). Bayesian Modeling of
-Spatial Transcriptomics Data via a Modified Ising Model.
-\emph{arXiv preprint arXiv:2104.13957}.
+Jiang, X., Xiao, G., & Li, Q. (2022). A Bayesian modified
+Ising model for identifying spatially variable genes from spatial
+transcriptomics data. \emph{Statistics in Medicine}, 41(23), 4647-4665.
+\url{https://doi.org/10.1002/sim.9530}.
 }
 \seealso{
 \code{\link[=normalize.st]{normalize.st()}} for normalizing sequence count data;

@@ -97,9 +97,9 @@ print(res)
 }
 }
 \references{
-Li, Q., Zhang M., Xie Y., & Xiao, G. (2020). Bayesian Modeling
-of Spatial Molecular Profiling Data via Gaussian Process.
-\emph{arXiv preprint arXiv:2012.03326}.
+Li, Q., Zhang, M., Xie, Y., & Xiao, G. (2021). Bayesian
+modeling of spatial molecular profiling data via Gaussian process.
+\emph{Bioinformatics}, 37(22), 4129-4136.
 }
 \seealso{
 \code{\link[=get.size.factor]{get.size.factor()}} for estimating the size factor;

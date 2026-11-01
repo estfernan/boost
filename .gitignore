@@ -47,3 +47,8 @@ po/*~
 # Development files
 TODO.md
 inst/delete/
+
+# Python bytecode and OS files
+__pycache__/
+*.pyc
+.DS_Store

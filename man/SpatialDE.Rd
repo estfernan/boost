@@ -52,6 +52,8 @@ See \url{https://bioconductor.org/packages/release/bioc/html/spatialDE.html}
 for more information.
 }
 \examples{
+\dontrun{
+## SpatialDE runs Python through the Bioconductor package spatialDE
 library(boost)
 
 ## load sample dataset
@@ -64,6 +66,7 @@ g     <- mob.t[, "Apoe"]
 ## run the statistical test
 res <- SpatialDE(g, mob.spots, gene.name = "Apoe")
 print(res)
+}
 }
 \references{
 Corso D, Malfait M, Moses L (2021). \emph{spatialDE: R wrapper for SpatialDE}.
